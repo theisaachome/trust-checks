@@ -1,0 +1,47 @@
+
+<div class="table-responsive">
+  <table class="table table-bordered table-hover table-striped align-middle">
+    <thead class="table-dark">
+    <tr>
+      <th>#</th>
+      <th>Country</th>
+      <th>Bank Account</th>
+      <th>Bank Name</th>
+      <th>Alias</th>
+      <th>Amount Lost</th>
+      <th>Phone</th>
+      <th>Status</th>
+      <th>Reported At</th>
+      <th>Description</th>
+      <th>Evidence</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (report of data; track  data; let idx = $index){
+         <tr>
+           <td>{{idx +1 }}</td>
+           <td>{{report.country}}</td>
+           <td> <code>{{ report.bank_account_number }}</code></td>
+           <td> {{ report.bank_name }}</td>
+           <td> {{ report.scammer_alias }}</td>
+           <td> {{report.amount_lost }}</td>
+           <td> {{ report.phone_number}}</td>
+           <td>
+             <span class="badge bg-success" *ngIf="report.status === 'ACTIVE'">Active</span>
+             <span class="badge bg-warning" *ngIf="report.status === 'DISPUTED'">D</span>
+             <span class="badge bg-danger" *ngIf="report.status === 'REMOVED'">Removed</span>
+           </td>
+           <td> {{report.created_at | date:'short'}}</td>
+           <td>{{report.scam_description}}</td>
+           <td>
+             @for (url of report.evidence_urls; track url; let i= $index) {
+                <a [href]="url" target="_blank" class="btn btn-sm btn-outline-primary me-1 mb-1">
+                  View
+                </a>
+             }
+           </td>
+         </tr>
+      }
+    </tbody>
+  </table>
+</div>
