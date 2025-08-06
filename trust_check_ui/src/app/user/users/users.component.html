@@ -1,0 +1,84 @@
+<div class="ui segment" style="margin-top: 10px">
+  <h4 class="dividing header">User Information</h4>
+  <form #myForm="ngForm" class="ui form error" (ngSubmit)="onSubmit()">
+    <div
+      ngModelGroup="userData"
+      #userData="ngModelGroup"
+    >
+      <div class="field">
+        <label for="userName">User Name</label>
+        <input
+            id="userName"
+            type="text"
+            ngModel
+            name="name"
+        >
+      </div>
+      <div class="field">
+        <button type="button" class="ui button basic" (click)="suggestUserName()">Suggest User Name</button>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+            id="email"
+            type="email"
+            placeholder="e.g., john.doe@example.com"
+            ngModel
+            name="email"
+            required
+            email
+            #email="ngModel"
+        >
+
+        <div class="ui error message" *ngIf="!email.valid && email.touched">
+          <p>Please Provide a valid mail!</p>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!userData.valid && userData.touched">
+      <p>User data invalid</p>
+    </div>
+
+    <div class="field">
+      <label for="question">Secrete Questions</label>
+      <select
+          name="secret"
+          id="question"
+          [ngModel]="defaultQuestion"
+          class="ui dropdown"
+          required>
+        <option selected value="default">Select a question</option>
+        <option value="pet">What is Pet name?</option>
+        <option value="teacher">What is your first Teacher?</option>
+      </select>
+    </div>
+    <div class="field">
+      <textarea
+        name="questionAnswer"
+        id="answer"
+        rows="3"
+        [(ngModel)]="answer"
+      ></textarea>
+    </div>
+    <p>
+      Your Answer : {{answer}}
+    </p>
+    <div class="inline fields">
+      <div class="field" *ngFor="let gender of genders;">
+        <div class="ui radio checkbox">
+          <input
+            type="radio"
+            name="gender"
+            [value]="gender"
+            ngModel
+          >
+          <label>{{ gender }}</label>
+        </div>
+      </div>
+    </div>
+    <button type="submit"
+            class="ui button basic"
+            [disabled]="!myForm.valid"
+    > Submit</button>
+  </form>
+</div>

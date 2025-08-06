@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.content {
+  flex: 1;
+  padding: 2rem;
+}
+.footer {
+  padding: 1rem 0;
+}
