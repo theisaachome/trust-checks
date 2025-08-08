@@ -1,0 +1,38 @@
+<div class="ui middle aligned center aligned grid" style="height: 100vh;">
+  <div class="column" style="max-width: 600px;">
+    <h1 class="ui header" style="font-size: 3rem;margin-bottom: 2rem;">
+      Trust Check
+    </h1>
+    <!--Search box-->
+    <div class="ui huge action input fluid">
+      <input
+        type="text"
+        placeholder="Check Scammer by name,phone, bank account"
+        [formControl]="queryControl"
+        class="input-radius"
+      >
+      <button class="ui primary button" (click)="onManualSearch()">Search</button>
+    </div>
+
+    <div style="margin-top: 1rem;">
+      <a class="ui small button" (click)="openReport()">Report a scammer</a>
+    </div>
+
+    <!-- Results -->
+    <div *ngIf="loading" class="ui active inline loader" style="margin-top: 2rem;"></div>
+    <div *ngIf="!loading && searched">
+        <div *ngIf="!lastResult" class="ui positive message" style="margin-top: 2rem;">
+          <div class="header">No reports found or this keyword.</div>
+          <p>if you were scammed by this person, help others by reporting.</p>
+          <div class="ui tiny basic button" (click)="openReport()">Report Now</div>
+        </div>
+        <div class="ui segment" style="margin-top: 2rem;">
+          <h3 class="ui header"> Results for "{{lastResult?.query}}"</h3>
+          <p>Total reports: {{ lastResult?.totalReports}}</p>
+          <button class="ui basic button" (click)="viewDetails()">View All Reports</button>
+        </div>
+    </div>
+
+  </div>
+
+</div>

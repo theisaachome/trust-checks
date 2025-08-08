@@ -1,4 +1,6 @@
 import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {ScamReport, SearchResultSummary} from './scamReport';
 
 
 @Injectable(
@@ -9,9 +11,29 @@ export  class ReportService{
     getReports(){
       return data;
     }
+    search(query:string):Observable<SearchResultSummary | null>{
+      const q = query.trim().toLowerCase();
+      if(!q) return  of(null);
+
+
+      var result= data.filter(report =>
+        (report.bank_account_number && report.bank_account_number.toLowerCase().includes(q)) ||
+        (report.bank_name && report.bank_name.toLowerCase().includes(q)) ||
+        (report.scammer_alias && report.scammer_alias.toLowerCase().includes(q)) ||
+        (report.phone_number && report.phone_number.toLowerCase().includes(q)) ||
+        (report.scam_description && report.scam_description.toLowerCase().includes(q)) ||
+        (report.country && report.country.toLowerCase().includes(q))
+      );
+      return of({query,totalReports:result.length})
+      // if(q.includes('scam')){
+      //   return of({query,totalReports:data.length});
+      // }
+      // data.find((q ) => {})
+      // return  of(null);
+    }
 }
 
-const data: any =[
+const data: ScamReport[] =[
   {
     "id": "1",
     "country": "SG",

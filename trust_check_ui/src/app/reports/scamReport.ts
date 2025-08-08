@@ -1,6 +1,11 @@
 
 
 
+export interface SearchResultSummary{
+  query:string;
+  totalReports:number;
+}
+
 export interface ScamReport {
   id: string;
   country: string;

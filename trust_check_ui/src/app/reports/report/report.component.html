@@ -1,1 +1,72 @@
-<p>report works!</p>
+<div class="ui segment" style="margin-bottom: 1rem;padding:2rem 4rem;">
+      <h2 class="ui header">
+        <i class="exclamation triangle icon"></i>
+        Scam Report Details
+      </h2>
+      <div>
+        <div class="ui label" [ngClass]="{ 'red' : report?.status ==='ACTIVE',
+            'yellow': report?.status === 'DISPUTED',
+            'grey': report?.status === 'REMOVED'
+        }">
+          {{report?.status}}
+        </div>
+          <span class="ui small text">Reported {{report?.created_at | date:'mediumDate'}}</span>
+      </div>
+      <div class="ui divider"></div>
+
+      <!-- Key Info Grid -->
+       <div class="ui two column stackable grid">
+         <div class="column">
+           <h4 class="ui header">Scammer Alias</h4>
+           <p>{{ report?.scammer_alias || 'N/A'}}</p>
+
+           <h4 class="ui header">Bank Info</h4>
+           <p>
+             <strong>{{ report?.bank_name || 'Unknow Bank'}}</strong>
+             {{ report?.bank_account_number || 'N/A'}}
+           </p>
+
+           <h4 class="ui header">Phone Number</h4>
+           <p>{{ report?.phone_number || 'N/A' }}</p>
+         </div>
+         <div class="column">
+           <h4 class="ui header">Amount Lost</h4>
+           <p *ngIf="report?.amount_lost; else noAmount">
+             RM {{ report?.amount_lost | number:'1.0-0'}}
+           </p>
+           <ng-template #noAmount><em>Not specified</em></ng-template>
+
+           <h4 class="ui header">Country</h4>
+           <p>{{ report?.country}}</p>
+
+           <h4 class="ui header">Description</h4>
+           <p> {{report?.scam_description || 'No description provided.'}}</p>
+         </div>
+       </div>
+        <!-- Evidence -->
+       <div class="ui divider"></div>
+        <h4 class="ui inverted header">Evidence</h4>
+        <div *ngIf="report?.evidence_urls; else noEvidence" class="ui small images">
+          @for (url of report?.evidence_urls; track url) {
+            <a  [href]="url" target="_blank">
+              <img [src]="url" class="ui rounded image" style="max-height: 100px; object-fit: cover;">
+            </a>
+          }
+        </div>
+        <ng-template #noEvidence><p>No evidence provided.</p></ng-template>
+
+
+        <div class="ui divider"></div>
+        <div class="">
+          <button class="ui tiny button" (click)="goBack()">
+            <i class="ui icon angle left"></i>
+          </button>
+          <button class="ui yellow tiny button" *ngIf="report?.status === 'ACTIVE'" (click)="disputeReport()">
+            <i class="ui icon comment alternate"></i>
+          </button>
+          <button class="ui tiny blue button" (click)="shareReport()">
+            <i class="my-custom-icon share icon"></i>
+          </button>
+        </div>
+
+</div>

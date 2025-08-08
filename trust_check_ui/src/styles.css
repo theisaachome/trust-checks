@@ -1,4 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+/*@import url('semantic.css'); !* Default for non-supporting browsers *!*/
+/*@import url('semantic-my-custom-dark-theme.css') (prefers-color-scheme: dark);*/
+/*@import url('semantic-my-custom-light-theme.css') (prefers-color-scheme: light);*/
+
+
 .layout {
   display: flex;
   flex-direction: column;
@@ -11,3 +16,8 @@
 .footer {
   padding: 1rem 0;
 }
+
+/*body {*/
+/*  background-color: #1b1c1d; !* Fomantic dark background *!*/
+/*  color: #fff;*/
+/*}*/

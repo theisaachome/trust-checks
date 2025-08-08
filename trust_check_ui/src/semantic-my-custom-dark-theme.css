@@ -1,0 +1,17 @@
+@media (prefers-color-scheme: light) {
+  :root {
+    --primaryColor: #000;
+    --backgroundColor: #fff;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primaryColor: #fff;
+    --backgroundColor: #000;
+  }
+}
+
+.ui.button {
+  color: var(--primaryColor);
+  background-color: var(--backgroundColor);
+}
