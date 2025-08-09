@@ -1,23 +1,13 @@
-<!--@for (report of data; track data;let idx = $index){-->
-
-<!--  <app-report [report]="report"></app-report>-->
-
-<!--}-->
 <div class="table-responsive">
   <table class="ui single line table">
     <thead class="table-dark">
     <tr>
-
       <th>Alias</th>
       <th>Phone</th>
       <th>Country</th>
-<!--      <th>Bank Account</th>-->
-<!--      <th>Bank Name</th>-->
       <th>Amount Lost</th>
       <th>Status</th>
       <th>Reported At</th>
-<!--      <th>Description</th>-->
-<!--      <th>Evidence</th>-->
     </tr>
     </thead>
     <tbody>
@@ -26,8 +16,6 @@
            <td> {{ report.scammer_alias }}</td>
            <td> {{ report.phone_number}}</td>
            <td>{{report.country}}</td>
-<!--           <td> <code>{{ report.bank_account_number }}</code></td>-->
-<!--           <td> {{ report.bank_name }}</td>-->
            <td> {{report.amount_lost }}</td>
            <td>
              <span class="badge bg-success" *ngIf="report.status === 'ACTIVE'">Active</span>
@@ -35,14 +23,6 @@
              <span class="badge bg-danger" *ngIf="report.status === 'REMOVED'">Removed</span>
            </td>
            <td> {{report.created_at | date:'mediumDate'}}</td>
-<!--           <td>{{report.scam_description}}</td>-->
-<!--           <td>-->
-<!--             @for (url of report.evidence_urls; track url; let i= $index) {-->
-<!--                <a [href]="url" target="_blank" class="btn btn-sm btn-outline-primary me-1 mb-1">-->
-<!--                  View-->
-<!--                </a>-->
-<!--             }-->
-<!--           </td>-->
          </tr>
       }
     </tbody>

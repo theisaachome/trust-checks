@@ -1,5 +1,4 @@
 package com.highway.trustchecks.entity;
-import com.highway.trustchecks.entity.ReportStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "scam_reports",schema = "trust_checks")
-public class ScamReport {
+public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,7 +32,7 @@ public class ScamReport {
     private City city;
     @OneToOne
     @JoinColumn(name = "case_type_id_fk")
-    private CaseType caseType;
+    private ScamCase caseType;
     private ReportStatus status;
 
 

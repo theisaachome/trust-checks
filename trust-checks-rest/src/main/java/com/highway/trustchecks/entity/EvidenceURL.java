@@ -1,6 +1,5 @@
 package com.highway.trustchecks.entity;
 
-import com.highway.trustchecks.entity.ScamReport;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,5 +19,5 @@ public class EvidenceURL {
     private String url;
     @ManyToOne
     @JoinColumn(name = "scam_report_id_fk")
-    private ScamReport scamReport;
+    private Report scamReport;
 }
