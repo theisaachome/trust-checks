@@ -197,3 +197,100 @@ INSERT INTO trust_checks.countries (name, iso_code) VALUES
 
 INSERT INTO trust_checks.payment_method_types (name)
 VALUES ('BANK'), ('EWALLET');
+
+
+-- Variables (for easier readability in scripts)
+DO $$
+    DECLARE
+        v_reporter_id UUID;
+        v_scammer_id UUID;
+        v_case_id UUID;
+        v_transaction_id UUID;
+    BEGIN
+        -- 1. Insert Reporter (optional contact info)
+        INSERT INTO reporters (name, contact_email, contact_phone)
+        VALUES ('Anonymous', NULL, NULL)
+        RETURNING reporter_id INTO v_reporter_id;
+
+        -- 2. Insert Scammer
+        INSERT INTO scammers (
+            scammer_alias,
+            full_name,
+            phone_number,
+            email_address,
+            country_name,
+            country_code,
+            city_name
+        ) VALUES (
+                     'John Doe',
+                     NULL, -- Full name unknown
+                     '123456789',
+                     NULL, -- Email unknown
+                     'Singapore',
+                     'SG',
+                     'Yangon'
+                 )
+        RETURNING scammer_id INTO v_scammer_id;
+
+        -- 3. Insert Social Media Handle
+        INSERT INTO scammer_social_handles (scammer_id, platform, profile_url)
+        VALUES (v_scammer_id, 'Facebook', NULL);
+
+        -- 4. Insert Scam Case
+        INSERT INTO scam_cases (
+            scammer_id,
+            reporter_id,
+            case_type,
+            scam_description,
+            scam_category,
+            modality,
+            date_of_incident,
+            reported_at,
+            status,
+            notes
+        ) VALUES (
+                     v_scammer_id,
+                     v_reporter_id,
+                     'Job Hunting',
+                     'I was looking for a remote job and ended up',
+                     'Employment Scam',
+                     'Online',
+                     CURRENT_DATE, -- Or specific incident date
+                     CURRENT_TIMESTAMP,
+                     'Open',
+                     'Initial case report'
+                 )
+        RETURNING case_id INTO v_case_id;
+
+        -- 5. Insert Payment Transaction
+        INSERT INTO payment_transactions (
+            case_id,
+            payment_method,
+            account_holder_name,
+            bank_account_number,
+            bank_name,
+            amount,
+            currency,
+            transaction_date
+        ) VALUES (
+                     v_case_id,
+                     'Bank Transfer',
+                     'John Doe',
+                     '123456789',
+                     'ABC Bank',
+                     200,
+                     'SGD',
+                     CURRENT_DATE
+                 )
+        RETURNING transaction_id INTO v_transaction_id;
+
+        -- 6. Insert Evidence Link (Example)
+        INSERT INTO evidence_links (case_id, link_url)
+        VALUES (v_case_id, 'https://facebook.com/scammer-profile');
+
+        -- 7. Insert Tags
+        INSERT INTO scam_case_tags (case_id, tag) VALUES
+                                                      (v_case_id, 'job scam'),
+                                                      (v_case_id, 'bank transfer'),
+                                                      (v_case_id, 'singapore');
+    END $$;
