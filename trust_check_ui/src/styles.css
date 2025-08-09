@@ -4,6 +4,21 @@
 /*@import url('semantic-my-custom-light-theme.css') (prefers-color-scheme: light);*/
 
 
+:root {
+  --navbar-height: 60px;
+}
+
+
+html,body{
+  overflow: scroll;
+  scrollbar-width: none;
+  height: 100%;
+  margin: 0;
+}
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
 .layout {
   display: flex;
   flex-direction: column;
@@ -21,3 +36,11 @@
 /*  background-color: #1b1c1d; !* Fomantic dark background *!*/
 /*  color: #fff;*/
 /*}*/
+.navbar {
+  height: var(--navbar-height);
+}
+
+.content {
+  margin-top: var(--navbar-height);
+  padding: 2rem;
+}

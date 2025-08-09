@@ -1,0 +1,25 @@
+
+.search-page {
+  height: 100vh; /* Full viewport height */
+  display: flex !important; /* Override Fomantic grid display */
+  justify-content: center;  /* Horizontal center */
+  align-items: center;      /* Vertical center */
+  padding: 0 1rem;
+}
+.column {
+  max-width: 600px;
+}
+/* Center the logo and make it responsive */
+.logo-container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Responsive image */
+.logo {
+  max-width: 16rem;   /* adjust for reasonable size */
+  width: 100%;
+  height: auto;
+}

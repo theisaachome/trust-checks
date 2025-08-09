@@ -1,23 +1,23 @@
-<div class="ui middle aligned center aligned grid" style="height: 100vh;">
-  <div class="column" style="max-width: 600px;">
-    <h1 class="ui header" style="font-size: 3rem;margin-bottom: 2rem;">
-      Trust Check
+<div class="ui middle aligned center aligned grid search-page">
+  <div class="column" >
+    <h1 class="logo-container" >
+      <img src="/trust_check_icon_2.png" alt="Trust Check Logo" class="logo">
     </h1>
     <!--Search box-->
-    <div class="ui huge action input fluid">
+    <div class="ui huge icon input fluid">
       <input
         type="text"
         placeholder="Check Scammer by name,phone, bank account"
         [formControl]="queryControl"
+        (keyup.enter)="onManualSearch()"
         class="input-radius"
       >
-      <button class="ui primary button" (click)="onManualSearch()">Search</button>
+      <i class="search icon"></i>
     </div>
 
     <div style="margin-top: 1rem;">
-      <a class="ui small button" (click)="openReport()">Report a scammer</a>
+      <a class="ui basic button" (click)="openReport()">Report Now</a>
     </div>
-
     <!-- Results -->
     <div *ngIf="loading" class="ui active inline loader" style="margin-top: 2rem;"></div>
     <div *ngIf="!loading && searched">

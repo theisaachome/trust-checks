@@ -25,4 +25,7 @@ export class ReportListComponent  implements OnInit{
   }
 
 
+  trackById(index:string, item:any):number{
+     return item.id;
+  }
 }
