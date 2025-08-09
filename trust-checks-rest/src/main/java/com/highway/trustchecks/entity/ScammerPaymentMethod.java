@@ -1,6 +1,5 @@
 package com.highway.trustchecks.entity;
 
-import com.highway.trustchecks.entity.ScamReport;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +16,7 @@ public class ScammerPaymentMethod {
     private String accountHolderName;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "scammer_report_id")
-    private ScamReport scamReport;
+    private Report scamReport;
     @ManyToOne
     @JoinColumn(name="method_type_id")
     private PaymentMethodType paymentMethodType;
