@@ -1,0 +1,21 @@
+package com.highway.trustchecks.entity;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import java.util.UUID;
+
+
+@Getter
+@Setter
+@Entity
+@Table(name = "scam_case_tag")
+public class ScamCaseTag {
+
+    @Id
+    @GeneratedValue
+    @Column(columnDefinition = "UUID",name = "tag_id")
+    private UUID tagId;
+    @ManyToOne
+    private ScamCase scamCase;
+    private String tag;
+}
