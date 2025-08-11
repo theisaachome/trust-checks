@@ -1,136 +1,251 @@
 
-<form class="ui form">
-  <h4 class="ui dividing header ">Scammer Information</h4>
-  <div class="three fields">
+  <form class="ui form"
+    [formGroup]="reportForm" (ngSubmit)="onSubmit()"
+  >
+        <h4 class="ui dividing header ">Scammer Details</h4>
+        <div class="four fields" formGroupName="scammer_details">
+          <div class="field">
+            <label for="aliasName">Scammer Alias</label>
+            <input
+              type="text"
+              name="aliasName"
+              placeholder="e.g., John Doe"
+              formControlName="scammer_alias"
+            >
+          </div>
+          <div class="field">
+            <label for="fullName">Full Name</label>
+            <input
+              type="text"
+              name="fullName"
+              placeholder="e.g., Jonathan Doe Market"
+              formControlName="full_name"
+            >
+          </div>
 
-    <div class="field">
-      <label for="aliasName">Scammer Name</label>
-      <input
-        type="text"
-        name="aliasName"
-        placeholder="e.g., John Doe"
-      >
+          <div class="field">
+            <label for="phoneNumber">Phone Number</label>
+            <input
+              id="phoneNumber"
+              type="text"
+              placeholder="e.g., 09250832014"
+              formControlName="phone_number"
+            >
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="johndoe@example.com"
+              formControlName="email_address"
+            >
+          </div>
+
+        </div>
+
+
+        <h4 class="ui dividing header"> Scam Case Information</h4>
+        <div formGroupName="scame_case_information">
+          <div class="three fields">
+            <div class="field">
+              <label>Select Scam Category</label>
+              <select
+                class="ui search dropdown"
+                      formControlName="scame_category"
+                      (change)="onScameCategoryChange($event)"
+              >
+                <option *ngFor="let category of scameCategories;" [value]="category.id">{{category.name}}</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="caseType">Select Case Type</label>
+              <input
+                type="text"
+                id="caseType"
+                required
+                formControlName="case_type"
+              >
+            </div>
+            <div class="field">
+              <label >Date of Incident</label>
+              <report-datepicker (valueChange)="onDateOfIncidentPick($event)"></report-datepicker>
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label for="short_story">Story title</label>
+              <input
+                type="text"
+                name="short_story"
+                formControlName="short_story"
+                placeholder="e.g., I was looking...">
+            </div>
+            <div class="field">
+              <label for="modality">Modality</label>
+              <input type="text" placeholder="e.g., Online">
+            </div>
+          </div>
+          <div class="field">
+            <label for="longDescription">Long Description</label>
+            <textarea
+              name="description"
+              id="longDescription" cols="30" rows="5"
+              formControlName="long_story"
+            ></textarea>
+          </div>
+        </div>
+
+        <h4>Location: Where did this happen?</h4>
+        <div formGroupName="location">
+          <div class="two fields">
+          <div class="field">
+            <label for="country">Select Country</label>
+            <select
+              id="country"
+              class="ui search dropdown"
+              formControlName="country_name"
+              (change)="onCountryChange($event)"  >
+              <option *ngFor="let country of counties;" [value]="country.isoCode">
+                {{country.name}}
+              </option>
+            </select>
+          </div>
+
+            <div class="field">
+              <label for="cityName">Select City</label>
+              <select
+                 id="cityName"
+                 class="ui search dropdown"
+                 formControlName="city_name"
+              >
+                <option [ngValue]="null">-- Select City --</option>
+          <option *ngFor="let city of cities;" [ngValue]="city.name">
+            {{city.name}}
+          </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+    <h4 class="ui dividing header">Payment Information</h4>
+          <div formGroupName="payment_information">
+            <div>
+              <p>Did you lose money? If yes, please provide the financial information involved.</p>
+            </div>
+            <button class="ui labeled icon button" (click)="onAddTransactions()">
+              <i class="add icon"></i>
+              Transactions
+            </button>
+            <div formArrayName="transactions">
+              <div *ngFor="let transaction of transactions.controls; let i = index" [formGroupName]="i" class="ui segment">
+                <div class="two fields">
+                  <div class="field">
+                    <label>Payment Method</label>
+                    <input type="text" formControlName="payment_method" />
+                  </div>
+                  <div class="field">
+                    <label>Bank Name / eWallet-Name</label>
+                    <input type="text" formControlName="">
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="field">
+                    <label for="accountHolderName">Account Holder Name</label>
+                    <input
+                      type="text"
+                      name="accountHolderName"
+                      placeholder="e.g., Aung Aung Tan"
+                    >
+                  </div>
+                  <div class="field">
+                    <label for="accountNumber">Account Number</label>
+                    <input
+                      type="text"
+                      name="accountNumber"
+                      placeholder="e.g., 1234567899"
+                      inputmode="numeric"
+                      pattern="\d*">
+                  </div>
+                </div>
+
+                <div class="two fields">
+                  <div class="field">
+                    <label for="amountLost">Amount Lost</label>
+                    <input type="text" placeholder="e.g., 1500 RM" formControlName="amountLost">
+                  </div>
+                  <div class="field">
+                    <label for="transaction_date">Transaction Date</label>
+                    <input type="date" formControlName="transaction_date">
+                  </div>
+                </div>
+              </div>
+              </div>
+          </div>
+
+
+
+    <div class="two fields">
+<!--      <div class="field">-->
+<!--        <label for="file">Upload files</label>-->
+<!--        <div class="ui right action left icon input">-->
+<!--          <i class="folder open yellow icon"></i>-->
+<!--          <input type="text" formControlName="email_address" name="fileName" placeholder="Select file" readonly>-->
+<!--          <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)">-->
+<!--          <button class="ui button" (click)="fileInput.click()">-->
+<!--            Upload-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
 
-    <div class="field">
-      <label for="phoneNumber">Phone Number</label>
-      <input
-        id="phoneNumber"
-        type="text"
-        placeholder="e.g., 09250832014"
-      >
-    </div>
-    <div class="field">
-      <label for="email">Email</label>
-      <input type="email"
-        id="email"
-             placeholder="johndoe@example.com"
-      >
-    </div>
 
-  </div>
-  <h4 class="ui dividing header"> Scamming Description</h4>
-  <div class="field">
-    <label for="shortDescription">Short Description</label>
-    <input type="text" id="shortDescription">
-  </div>
-  <div class="field">
-    <label for="longDescription">Description</label>
-    <textarea name="description" id="longDescription" cols="30" rows="5"></textarea>
-  </div>
-  <h4 class="ui dividing header">Scammer Banking Information</h4>
-  <div class="fields stackable three">
-    <div class="field">
-      <label for="bankName">Bank Name</label>
-      <input
-        type="text"
-        name="bankName"
-        placeholder="e.g., KBZ Bank KPay">
+    <h4 class="ui dividing header">Where did it happened</h4>
 
-    </div>
-    <div class="field">
-      <label for="accountHolderName">Account Holder Name</label>
-      <input
-        type="text"
-        name="accountHolderName"
-        placeholder="e.g., Aung Aung Tan"
-      >
-    </div>
-    <div class="field">
-      <label for="accountNumber">Account Number</label>
-      <input
-        type="text"
-        name="accountNumber"
-        placeholder="e.g., 1234567899"
-        inputmode="numeric"
-        pattern="\d*">
-    </div>
-
-  </div>
-  <div class="two fields">
-    <div class="field">
-      <label for="amountLost">Amount Lost</label>
-      <input type="text" placeholder="e.g., RM 1000">
-    </div>
-    <div class="field">
-      <label for="file">Upload files</label>
-      <div class="ui right action left icon input">
-        <i class="folder open yellow icon"></i>
-        <input type="text" [(ngModel)]="fileName" name="fileName" placeholder="Select file" readonly>
-        <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)">
-        <button class="ui button" (click)="fileInput.click()">
-          Upload
-        </button>
+    <div class="two fields">
+      <div class="field">
+        <label for="platform">Platform</label>
+        <input type="text" id="platform" placeholder="e.g., facebook, online shop">
+      </div>
+      <div class="field">
+        <label for="caseType">Case Type</label>
+        <input type="text" id="caseType"  placeholder="e.g., Job Scam, House Rent, Online game">
       </div>
     </div>
-  </div>
+    <div class="two fields">
+      <div class="field">
+        <label for="cityName">City</label>
+        <input type="text" id="cityName" placeholder="e.g., Yangon">
+      </div>
+      <div class="field">
+        <label for="countryName">Country</label>
+        <input type="text" id="countryName"  placeholder="Myanmar">
+      </div>
+    </div>
 
 
-  <h4 class="ui dividing header">Where did it happened</h4>
+    <h4 class="ui dividing header">Upload Evidence</h4>
+    <input type="file">
 
-  <div class="two fields">
+    <h4 class="ui dividing header">Optional Contact</h4>
+    <div class="two fields">
+      <div class="field">
+        <label for="reporterName">Contact Name</label>
+        <input type="text" id="reporterName" placeholder=" Your Information is safe">
+      </div>
+      <div class="field">
+        <label for="reporterMail">Contact Mail</label>
+        <input type="email" id="reporterMail" placeholder="e.g., johndoe@example.com">
+      </div>
+    </div>
+
     <div class="field">
-      <label for="platform">Platform</label>
-      <input type="text" id="platform" placeholder="e.g., facebook, online shop">
+      <div class="ui checkbox">
+        <input type="checkbox" tabindex="0" class="hidden">
+        <label>I agree to be contacted | I agree to the Terms and Conditions</label>
+      </div>
     </div>
-    <div class="field">
-      <label for="caseType">Case Type</label>
-      <input type="text" id="caseType"  placeholder="e.g., Job Scam, House Rent, Online game">
-    </div>
-  </div>
-  <div class="two fields">
-    <div class="field">
-      <label for="cityName">City</label>
-      <input type="text" id="cityName" placeholder="e.g., Yangon">
-    </div>
-    <div class="field">
-      <label for="countryName">Country</label>
-      <input type="text" id="countryName"  placeholder="Myanmar">
-    </div>
-  </div>
-
-
-  <h4 class="ui dividing header">Upload Evidence</h4>
-  <input type="file">
-
-  <h4 class="ui dividing header">Optional Contact</h4>
-  <div class="two fields">
-    <div class="field">
-      <label for="reporterName">Contact Name</label>
-      <input type="text" id="reporterName" placeholder=" Your Information is safe">
-    </div>
-    <div class="field">
-      <label for="reporterMail">Contact Mail</label>
-      <input type="email" id="reporterMail" placeholder="e.g., johndoe@example.com">
-    </div>
-  </div>
-
-  <div class="field">
-    <div class="ui checkbox">
-      <input type="checkbox" tabindex="0" class="hidden">
-      <label>I agree to be contacted | I agree to the Terms and Conditions</label>
-    </div>
-  </div>
-  <button class="ui button" type="submit">Submit</button>
+    <button class="ui button" type="submit">Submit</button>
 
 </form>

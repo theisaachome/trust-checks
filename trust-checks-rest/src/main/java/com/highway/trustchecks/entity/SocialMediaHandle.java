@@ -1,10 +1,12 @@
 package com.highway.trustchecks.entity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
 import java.util.UUID;
 
-
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -21,5 +23,5 @@ public class SocialMediaHandle {
 
     @ManyToOne
     @JoinColumn(name = "scammer_id",nullable = false)
-    private Scammer scammer;
+    private ScammerDetails scammer;
 }

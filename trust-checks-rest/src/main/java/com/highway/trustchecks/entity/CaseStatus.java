@@ -1,5 +1,5 @@
 package com.highway.trustchecks.entity;
 
-public enum ReportStatus {
+public enum CaseStatus {
     ACTIVE,DISPUTED,REMOVED
 }
