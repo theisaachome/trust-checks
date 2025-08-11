@@ -1,0 +1,121 @@
+-- CREATE SCHEMA IF NOT EXISTS trust_checks;
+-- DROP TABLE IF EXISTS trust_checks.countries;
+-- DROP TABLE IF EXISTS trust_checks.payment_method_types;
+-- CREATE TABLE IF NOT EXISTS trust_checks.countries (
+--     id SERIAL PRIMARY KEY,
+--     name VARCHAR(100) NOT NULL,
+--     iso_code CHAR(2) NOT NULL UNIQUE
+-- );
+--
+--
+-- CREATE TABLE IF NOT EXISTS  trust_checks.payment_method_types (
+--     id SERIAL PRIMARY KEY,
+--     name VARCHAR(50) NOT NULL UNIQUE  -- e.g., 'BANK', 'EWALLET'
+-- );
+--
+--
+--
+-- -- =========================
+-- -- 1. Reporters Table
+-- -- =========================
+-- CREATE TABLE reporters (
+--                            reporter_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--                            name TEXT,
+--                            contact_email TEXT,
+--                            contact_phone TEXT
+-- );
+--
+-- -- =========================
+-- -- 2. Scammers Table
+-- -- =========================
+-- CREATE TABLE scammers (
+--                           scammer_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--                           scammer_alias TEXT,
+--                           full_name TEXT,
+--                           phone_number TEXT,
+--                           email_address TEXT,
+--                           country_name TEXT,
+--                           country_code CHAR(2),
+--                           city_name TEXT
+-- );
+--
+-- -- =========================
+-- -- 3. Social Media Handles
+-- -- =========================
+-- CREATE TABLE scammer_social_handles (
+--                                         handle_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--                                         scammer_id UUID REFERENCES scammers(scammer_id) ON DELETE CASCADE,
+--                                         platform TEXT NOT NULL,
+--                                         profile_url TEXT
+-- );
+--
+-- -- =========================
+-- -- 4. Scam Cases
+-- -- =========================
+-- CREATE TABLE scam_cases (
+--                             case_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--                             scammer_id UUID REFERENCES scammers(scammer_id) ON DELETE CASCADE,
+--                             reporter_id UUID REFERENCES reporters(reporter_id) ON DELETE SET NULL,
+--                             case_type TEXT NOT NULL,
+--                             scam_description TEXT,
+--                             scam_category TEXT,
+--                             modality TEXT,
+--                             date_of_incident DATE,
+--                             reported_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--                             status TEXT DEFAULT 'Open',
+--                             notes TEXT
+-- );
+--
+-- -- =========================
+-- -- 5. Payment Transactions
+-- -- =========================
+-- CREATE TABLE payment_transactions (
+--                                       transaction_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--                                       case_id UUID REFERENCES scam_cases(case_id) ON DELETE CASCADE,
+--                                       payment_method TEXT,
+--                                       account_holder_name TEXT,
+--                                       bank_account_number TEXT,
+--                                       bank_name TEXT,
+--                                       amount NUMERIC(12, 2),
+--                                       currency CHAR(3),
+--                                       transaction_date DATE
+-- );
+--
+-- -- =========================
+-- -- 6. Evidence Files
+-- -- =========================
+-- CREATE TABLE evidence_files (
+--                                 evidence_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--                                 case_id UUID REFERENCES scam_cases(case_id) ON DELETE CASCADE,
+--                                 file_name TEXT,
+--                                 file_url TEXT,
+--                                 file_type TEXT
+-- );
+--
+-- -- =========================
+-- -- 7. Evidence Links
+-- -- =========================
+-- CREATE TABLE evidence_links (
+--                                 link_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--                                 case_id UUID REFERENCES scam_cases(case_id) ON DELETE CASCADE,
+--                                 link_url TEXT
+-- );
+--
+-- -- =========================
+-- -- 8. Tags for Scam Cases
+-- -- =========================
+-- CREATE TABLE scam_case_tags (
+--                                 tag_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+--                                 case_id UUID REFERENCES scam_cases(case_id) ON DELETE CASCADE,
+--                                 tag TEXT
+-- );
+--
+-- -- =========================
+-- -- Indexes for Performance
+-- -- =========================
+-- CREATE INDEX idx_scammer_phone ON scammers(phone_number);
+-- CREATE INDEX idx_scammer_email ON scammers(email_address);
+-- CREATE INDEX idx_case_date ON scam_cases(date_of_incident);
+-- CREATE INDEX idx_case_status ON scam_cases(status);
+-- CREATE INDEX idx_payment_method ON payment_transactions(payment_method);
+-- CREATE INDEX idx_country_code ON scammers(country_code);
