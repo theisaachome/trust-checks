@@ -4,12 +4,12 @@ import com.highway.trustchecks.entity.CaseStatus;
 
 import java.util.List;
 
-public record ScamReportDto(
+public record ScamCaseReportDto(
         ReporterDTO reporter,
         @JsonProperty("scammer_details") ScammerDetailsDTO scammerDetails,
-        @JsonProperty("scam_information") ScamInformationDTO scamInformation,
+        @JsonProperty("scam_case_information") ScamCaseInformationDTO scamInformation,
         @JsonProperty("payment_information") PaymentInformationDTO paymentInformation,
-        List<AttachmentDTO> evidence,
+        CaseEvidenceDTO case_evidence,
         CaseStatus status,
         List<String> tags,
         @JsonProperty("data_source") String dataSource,

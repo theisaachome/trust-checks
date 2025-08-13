@@ -18,20 +18,18 @@
         "profile_url": "https://facebook.com/scammer-profile"
       }
     ],
-    "country": {
+    "location": {
       "country_name": "Singapore",
-      "country_code": "SG"
-    },
-    "city": {
+      "country_code": "SG",
       "city_name": "Yangon"
     }
   },
-  "scam_information": {
+  "scam_case_information": {
     "case_type": "Job Hunting",
     "scam_description": "I was looking for a remote job and ended up...",
     "scam_category": "Employment Scam",
     "modality": "Online",
-    "date_of_incident": "2025-07-15"
+    "date_of_incident": "2025-07-15",
   },
   "payment_information": {
     "total_amount_lost": 200,
@@ -48,7 +46,7 @@
       }
     ]
   },
-  "evidence": {
+  "case_evidence": {
     "attachments": [
       {
         "file_name": "screenshot1.png",
@@ -60,8 +58,8 @@
       "https://facebook.com/scammer-profile"
     ]
   },
-  "status": "Open",
   "tags": ["job scam", "bank transfer", "singapore"],
+  "status": "Open",
   "data_source": "User Submission",
   "notes": "First report from this scammer."
 }

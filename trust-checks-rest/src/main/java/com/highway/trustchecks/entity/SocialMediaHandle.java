@@ -23,5 +23,5 @@ public class SocialMediaHandle {
 
     @ManyToOne
     @JoinColumn(name = "scammer_id",nullable = false)
-    private Scammer scammer;
+    private ScammerDetails scammer;
 }

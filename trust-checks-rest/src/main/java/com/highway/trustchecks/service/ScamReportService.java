@@ -1,9 +1,10 @@
 package com.highway.trustchecks.service;
 
-import com.highway.trustchecks.dto.ScamReportDto;
-import com.highway.trustchecks.entity.ScamCase;
+import com.highway.trustchecks.dto.ScamCaseReportDto;
+import com.highway.trustchecks.entity.ScamCaseInformation;
+import com.highway.trustchecks.entity.ScamCaseReport;
 
 public interface ScamReportService {
 
-    ScamCase ingestScamReport(ScamReportDto dto);
+    ScamCaseReport ingestScamReport(ScamCaseReportDto dto);
 }

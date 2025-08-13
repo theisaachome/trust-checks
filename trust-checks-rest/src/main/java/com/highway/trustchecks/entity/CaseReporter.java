@@ -12,7 +12,7 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "reporters")
-public class Reporter {
+public class CaseReporter {
 
     @Id
     @GeneratedValue

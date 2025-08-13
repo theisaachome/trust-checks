@@ -16,6 +16,6 @@ public class ScamCaseTag {
     @Column(columnDefinition = "UUID",name = "tag_id")
     private UUID tagId;
     @ManyToOne
-    private ScamCase scamCase;
+    private ScamCaseInformation scameCaseInformation;
     private String tag;
 }

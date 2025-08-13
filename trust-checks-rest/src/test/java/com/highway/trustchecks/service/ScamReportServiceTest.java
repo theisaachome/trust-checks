@@ -1,5 +1,6 @@
 package com.highway.trustchecks.service;
 
+import com.highway.trustchecks.BaseUnitObject;
 import com.highway.trustchecks.dto.*;
 import com.highway.trustchecks.entity.CaseStatus;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,11 +17,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-class ScamReportServiceTest {
+class ScamReportServiceTest  extends BaseUnitObject {
 
     @Autowired
     private ScamReportService scamReportService;
-    ScamReportDto scamReportDto;
+    ScamCaseReportDto scamReportDto;
     @BeforeEach
     void init(){
         var reporter = new ReporterDTO("Anonymous","optional@example.com","optional");
@@ -39,9 +40,9 @@ class ScamReportServiceTest {
                                 "https://instagram.com/fakeprofile"
                         )
                 ),
-                new CountryDTO("Singapore", "SG"),
-                new CityDTO("Yangon"));
-        var scamInformation = new ScamInformationDTO(
+                new LocationDTO("Singapore", "SG","Yangon"));
+
+        var scamInformation = new ScamCaseInformationDTO(
                 "Job Hunting", // case_type
                 "I was looking for a remote job and ended up...", // scam_description
                 "Employment Scam", // scam_category
@@ -62,27 +63,35 @@ class ScamReportServiceTest {
                         )
                 )
         );
+        var caseEvidence = new CaseEvidenceDTO(
+                List.of( new AttachmentDTO(
+                        "screenshot1.png", // file_name
+                        "https://example.com/evidence/screenshot1.png", // file_url
+                        "image/png" // file_type
+                ), new AttachmentDTO(
+                        "screenshot1.png", // file_name
+                        "https://example.com/evidence/screenshot1.png", // file_url
+                        "image/png" // file_type
+                )),
+                "https://example.com/evidence/screenshot1.png"
+        );
 
-        var evidenceFiles = List.of( new AttachmentDTO(
-                "screenshot1.png", // file_name
-                "https://example.com/evidence/screenshot1.png", // file_url
-                "image/png" // file_type
-        ), new AttachmentDTO(
-                "screenshot1.png", // file_name
-                "https://example.com/evidence/screenshot1.png", // file_url
-                "image/png" // file_type
-        ));
-        scamReportDto = new ScamReportDto(
+        scamReportDto = new ScamCaseReportDto(
                 reporter,
                 scammerDetails,
                 scamInformation,
                 paymentInformation,
-                evidenceFiles,
+                caseEvidence,
                 CaseStatus.ACTIVE,
                 List.of("Job hunting","Online"),
                 "User Submition",
                 "Reporting Scammer recently"
         );
+    }
+
+    @Test
+    void shouldCreatePaymentInformationDto(){
+        createPaymentInformationDTO();
     }
 
     @Test

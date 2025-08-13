@@ -2,67 +2,87 @@ package com.highway.trustchecks.mapper;
 import com.highway.trustchecks.dto.*;
 import com.highway.trustchecks.entity.*;
 import org.springframework.stereotype.Component;
-import java.time.LocalDateTime;
+
 import java.util.List;
-import java.util.UUID;
 import java.util.function.Function;
 
 @Component
-public class ScamCaseMapper {
+public class CaseReportMapper {
 
 
-    public Reporter mapToReporter(ReporterDTO dto) {
+    public ScamCaseReport mapToScamCaseReport(ScamCaseReportDto dto){
+         if (dto ==null) return null;
+         return   ScamCaseReport.builder()
+                 .status(dto.status())
+                 .dataSource(dto.dataSource())
+                 .notes(dto.notes())
+                 .build();
+    }
+    public CaseReporter mapToReporter(ReporterDTO dto) {
           if (dto == null) return null;
-            return Reporter.builder()
+            return CaseReporter.builder()
                    .name(dto.name())
                     .contactEmail(dto.contactEmail())
                     .contactPhone(dto.contactPhone())
                     .build();
     }
-    public Scammer mapToScammer(ScammerDetailsDTO dto){
+    public ScammerDetails mapToScammer(ScammerDetailsDTO dto){
         if (dto == null) return null;
 
-        var scammer =Scammer.builder()
+        var scammer = ScammerDetails.builder()
                 .scammerAlias(dto.scammerAlias())
                 .fullName(dto.fullName())
                 .phoneNumber(dto.phoneNumber())
                 .emailAddress(dto.emailAddress())
-                .cityName(dto.city().cityName())
-                .countryName(dto.country().countryName())
-                .countryCode(dto.country().countryCode())
                 .build();
         return scammer;
     }
+    public Location mapToLocation(LocationDTO dto) {
+        if (dto == null) return null;
+        return Location.builder()
+                .cityName(dto.cityName())
+                .countryName(dto.countryName())
+                .countryCode(dto.countryCode())
+                .build();
+    }
 
-    public ScamCase mapToScamCase(ScamReportDto dto){
+    public ScamCaseInformation mapToScamCaseInformation(ScamCaseInformationDTO dto){
         if(dto == null) return null;
-        var scamCase = ScamCase.builder()
-                .scamCategory(dto.scamInformation().scamCategory())
-                .scamDescription(dto.scamInformation().scamDescription())
-                .caseType(dto.scamInformation().caseType())
-                .notes(dto.notes())
-                .dataSource(dto.dataSource())
-                .dateOfIncident(dto.scamInformation().dateOfIncident())
-                .reportedAt(LocalDateTime.now())
-                .status(CaseStatus.ACTIVE)
-                .modality(dto.scamInformation().modality())
-                .reportedAt(LocalDateTime.now())
+        var scamCase = ScamCaseInformation.builder()
+                .caseType(dto.caseType())
+                .scamDescription(dto.scamDescription())
+                .scamCategory(dto.scamCategory())
+                .modality(dto.modality())
+                .dateOfIncident(dto.dateOfIncident())
                 .build();
         return scamCase;
     }
-    public EvidenceFile mapToEvidenceFile(AttachmentDTO dto){
+    public CaseEvidence mapToCaseEvidence(CaseEvidenceDTO dto){
         if(dto == null) return null;
-        var evidenceFile =EvidenceFile.builder()
-                .fileName(dto.fileName())
-                .fileType(dto.fileType())
-                .fileUrl(dto.fileUrl())
+        var evidenceFile = CaseEvidence.builder()
+                .link(dto.link())
                 .build();
         return evidenceFile;
+    }
+    public Attachment mapToAttachment(AttachmentDTO dto){
+        if(dto == null) return null;
+        return Attachment.builder()
+                .fileName(dto.fileName())
+                .fileUrl(dto.fileUrl())
+                .fileType(dto.fileType())
+                .build();
     }
     public SocialMediaHandle mapToSocialMediaHandle(SocialMediaHandleDTO dto){
         return  SocialMediaHandle.builder()
                 .platform(dto.platform())
                 .profileUrl(dto.profileUrl())
+                .build();
+    }
+
+    public  PaymentInformation mapToPaymentInformation(PaymentInformationDTO dto){
+        return PaymentInformation.builder()
+                .currency(dto.currency())
+                .totalAmountLost(dto.totalAmountLost())
                 .build();
     }
 

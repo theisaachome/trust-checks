@@ -10,7 +10,6 @@ public record ScammerDetailsDTO(
         @JsonProperty("phone_number") String phoneNumber,
         @JsonProperty("email_address") String emailAddress,
         @JsonProperty("social_media_handles") List<SocialMediaHandleDTO> socialMediaHandles,
-        CountryDTO country,
-        CityDTO city
+        LocationDTO location
 ) {
 }
