@@ -1,12 +1,6 @@
 {
   "report_id": "UUID",
   "reported_at": "2025-08-10T14:32:00Z",
-  "reporter": {
-    "reporter_id": "UUID",
-    "name": "Anonymous",
-    "contact_email": "optional@example.com",
-    "contact_phone": "optional"
-  },
   "scammer_details": {
     "scammer_alias": "John Doe",
     "full_name": "Johnathan Doe",
@@ -57,6 +51,12 @@
     "links": [
       "https://facebook.com/scammer-profile"
     ]
+  },
+  "reporter": {
+    "reporter_id": "UUID",
+    "name": "Anonymous",
+    "contact_email": "optional@example.com",
+    "contact_phone": "optional"
   },
   "tags": ["job scam", "bank transfer", "singapore"],
   "status": "Open",
