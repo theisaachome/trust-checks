@@ -1,54 +1,105 @@
 
   <form class="ui form"
-    [formGroup]="reportForm"
+    [formGroup]="reportForm" (ngSubmit)="onSubmit()"
   >
-    <h4 class="ui dividing header ">Scammer Details</h4>
-    <div class="four fields">
-      <div class="field">
-        <label for="aliasName">Scammer Alias</label>
-        <input
-          type="text"
-          name="aliasName"
-          placeholder="e.g., John Doe"
-          formControlName="name"
-        >
-      </div>
-      <div class="field">
-        <label for="fullName">Full Name</label>
-        <input
-          type="text"
-          name="fullName"
-          placeholder="e.g., Jonathan Doe Market"
-          [formControlName]="fi"
-        >
-      </div>
+        <h4 class="ui dividing header ">Scammer Details</h4>
+        <div class="four fields" formGroupName="scammer_details">
+          <div class="field">
+            <label for="aliasName">Scammer Alias</label>
+            <input
+              type="text"
+              name="aliasName"
+              placeholder="e.g., John Doe"
+              formControlName="scammer_alias"
+            >
+          </div>
+          <div class="field">
+            <label for="fullName">Full Name</label>
+            <input
+              type="text"
+              name="fullName"
+              placeholder="e.g., Jonathan Doe Market"
+              formControlName="full_name"
+            >
+          </div>
 
-      <div class="field">
-        <label for="phoneNumber">Phone Number</label>
-        <input
-          id="phoneNumber"
-          type="text"
-          placeholder="e.g., 09250832014"
-        >
-      </div>
-      <div class="field">
-        <label for="email">Email</label>
-        <input type="email"
-          id="email"
-               placeholder="johndoe@example.com"
-        >
-      </div>
+          <div class="field">
+            <label for="phoneNumber">Phone Number</label>
+            <input
+              id="phoneNumber"
+              type="text"
+              placeholder="e.g., 09250832014"
+              formControlName="phone_number"
+            >
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="johndoe@example.com"
+              formControlName="email_address"
+            >
+          </div>
 
-    </div>
-    <h4 class="ui dividing header"> Scamming Description</h4>
-    <div class="field">
-      <label for="shortDescription">Short Description</label>
-      <input type="text" id="shortDescription">
-    </div>
-    <div class="field">
-      <label for="longDescription">Description</label>
-      <textarea name="description" id="longDescription" cols="30" rows="5"></textarea>
-    </div>
+        </div>
+        <h4 class="ui dividing header"> Scam Case Information</h4>
+        <div formGroupName="scame_case_information">
+          <div class="three fields">
+            <div class="field">
+              <label for="scameCategory">Select Category</label>
+              <input
+                type="text"
+                id="scameCategory"
+                required
+                formControlName="scame_category"
+              >
+            </div>
+            <div class="field">
+              <label for="caseType">Select Case Type</label>
+              <input
+                type="text"
+                id="caseType"
+                required
+                formControlName="case_type"
+              >
+            </div>
+            <div class="field">
+              <label for="date_of_incident">Date of Incident</label>
+              <input
+                type="date"
+                id="date_of_incident"
+                required
+                formControlName="date_of_incident"
+              >
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label for="short_story">Story title</label>
+              <input
+                type="text"
+                name="short_story"
+                placeholder="e.g., KBZ Bank KPay">
+            </div>
+            <div class="field">
+              <label for="modality">Modality</label>
+              <input type="text" placeholder="e.g., Online">
+            </div>
+          </div>
+
+
+          <div class="field">
+            <label for="longDescription">Long Description</label>
+            <textarea
+              name="description"
+              id="longDescription" cols="30" rows="5"
+              formControlName="long_story"
+            ></textarea>
+          </div>
+        </div>
+
+
     <h4 class="ui dividing header">Scammer Banking Information</h4>
     <div class="fields stackable three">
       <div class="field">
@@ -87,7 +138,7 @@
         <label for="file">Upload files</label>
         <div class="ui right action left icon input">
           <i class="folder open yellow icon"></i>
-          <input type="text" [(ngModel)]="fileName" name="fileName" placeholder="Select file" readonly>
+          <input type="text" formControlName="email_address" name="fileName" placeholder="Select file" readonly>
           <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)">
           <button class="ui button" (click)="fileInput.click()">
             Upload

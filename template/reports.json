@@ -19,11 +19,12 @@
     }
   },
   "scam_case_information": {
-    "case_type": "Job Hunting",
-    "scam_description": "I was looking for a remote job and ended up...",
     "scam_category": "Employment Scam",
-    "modality": "Online",
+    "case_type": "Job Hunting",
     "date_of_incident": "2025-07-15",
+    "short_story": "I was looking for a remote job and ended up...",
+    "modality": "Online",
+    "long_story": ""
   },
   "payment_information": {
     "total_amount_lost": 200,
@@ -48,9 +49,7 @@
         "file_type": "image/png"
       }
     ],
-    "links": [
-      "https://facebook.com/scammer-profile"
-    ]
+    "link": "https://facebook.com/scammer-profile"
   },
   "reporter": {
     "reporter_id": "UUID",
