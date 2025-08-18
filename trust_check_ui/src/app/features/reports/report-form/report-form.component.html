@@ -43,6 +43,8 @@
           </div>
 
         </div>
+
+
         <h4 class="ui dividing header"> Scam Case Information</h4>
         <div formGroupName="scame_case_information">
           <div class="three fields">
@@ -99,41 +101,113 @@
           </div>
         </div>
 
+        <h4>Location: Where did this happen?</h4>
+        <div formGroupName="location">
+          <div class="two fields">
+          <div class="field">
+            <label for="country">Select Country</label>
+            <select
+              id="country"
+              class="ui search dropdown"
+              formControlName="country_name"
+              (change)="onCountryChange($event)"  >
+              <option *ngFor="let country of counties;" [value]="country.isoCode">
+                {{country.name}}
+              </option>
+            </select>
+          </div>
 
-    <h4 class="ui dividing header">Scammer Banking Information</h4>
-    <div class="fields stackable three">
-      <div class="field">
-        <label for="bankName">Bank Name</label>
-        <input
-          type="text"
-          name="bankName"
-          placeholder="e.g., KBZ Bank KPay">
+            <div class="field">
+              <label for="cityName">Select City</label>
+              <select
+                 id="cityName"
+                 class="ui search dropdown"
+                 formControlName="city_name"
+                [disabled]="!cities"
+              >
+          <option *ngFor="let city of cities;" [value]="city.name">
+            {{city.name}}
+          </option>
+              </select>
+            </div>
+          </div>
+        </div>
 
-      </div>
-      <div class="field">
-        <label for="accountHolderName">Account Holder Name</label>
-        <input
-          type="text"
-          name="accountHolderName"
-          placeholder="e.g., Aung Aung Tan"
-        >
-      </div>
-      <div class="field">
-        <label for="accountNumber">Account Number</label>
-        <input
-          type="text"
-          name="accountNumber"
-          placeholder="e.g., 1234567899"
-          inputmode="numeric"
-          pattern="\d*">
-      </div>
 
+<!--    ======
+    <div class="field">
+      <label for="country">Select Country</label>
+      <div class="ui search selection dropdown" formControlName="country_code">
+        <input type="hidden" id="country">
+        <i class="dropdown icon"></i>
+        <div class="default text">Select Country</div>
+        <div class="menu">
+          <div class="item" *ngFor="let country of counties" [attr.data-value]="country.isoCode">
+            {{country.name}}
+          </div>
+        </div>
+      </div>
     </div>
+-->
+
+    <h4 class="ui dividing header">Payment Information</h4>
+          <div formGroupName="payment_information">
+            <div>
+              <p>Did you lose money? If yes, please provide the financial information involved.</p>
+            </div>
+            <button class="ui labeled icon button" (click)="onAddTransactions()">
+              <i class="add icon"></i>
+              Transactions
+            </button>
+            <div formArrayName="transactions">
+              <div *ngFor="let transaction of transactions.controls; let i = index" [formGroupName]="i" class="ui segment">
+                <div class="two fields">
+                  <div class="field">
+                    <label>Payment Method</label>
+                    <input type="text" formControlName="payment_method" />
+                  </div>
+                  <div class="field">
+                    <label>Bank Name / eWallet-Name</label>
+                    <input type="text" formControlName="">
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="field">
+                    <label for="accountHolderName">Account Holder Name</label>
+                    <input
+                      type="text"
+                      name="accountHolderName"
+                      placeholder="e.g., Aung Aung Tan"
+                    >
+                  </div>
+                  <div class="field">
+                    <label for="accountNumber">Account Number</label>
+                    <input
+                      type="text"
+                      name="accountNumber"
+                      placeholder="e.g., 1234567899"
+                      inputmode="numeric"
+                      pattern="\d*">
+                  </div>
+                </div>
+
+                <div class="two fields">
+                  <div class="field">
+                    <label for="amountLost">Amount Lost</label>
+                    <input type="text" placeholder="e.g., 1500 RM" formControlName="amountLost">
+                  </div>
+                  <div class="field">
+                    <label for="transaction_date">Transaction Date</label>
+                    <input type="date" formControlName="transaction_date">
+                  </div>
+                </div>
+              </div>
+              </div>
+          </div>
+
+
+
     <div class="two fields">
-      <div class="field">
-        <label for="amountLost">Amount Lost</label>
-        <input type="text" placeholder="e.g., RM 1000">
-      </div>
       <div class="field">
         <label for="file">Upload files</label>
         <div class="ui right action left icon input">

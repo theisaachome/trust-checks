@@ -1,18 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {dateTimestampProvider} from 'rxjs/internal/scheduler/dateTimestampProvider';
+import {NgForOf} from '@angular/common';
+import {Country, City, ICountry, ICity} from 'country-state-city';
+
+
+declare var $: any; // for jQuery
 
 @Component({
   selector: 'app-report-form',
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgForOf
   ],
   templateUrl: './report-form.component.html',
   styleUrl: './report-form.component.css'
 })
-export class ReportFormComponent  implements  OnInit{
-
+export class ReportFormComponent  implements  OnInit,AfterViewInit{
   reportForm: FormGroup = new FormGroup({
     scammer_details:new FormGroup({
       scammer_alias: new FormControl(null, [Validators.required]),
@@ -54,10 +58,27 @@ export class ReportFormComponent  implements  OnInit{
     })
 
   });
-  ngOnInit(): void {
 
+  counties: ICountry[]=[];
+  cities: ICity[]|undefined=[] ;
+
+  ngOnInit(): void {
+     this.counties = Country.getAllCountries();
   }
 
+  onCountryChange(event:any){
+    console.log(event);
+    const selectedCountry = this.counties.find((c)=>c.isoCode===event.target.value);
+    this.cities=[];
+    if(selectedCountry){
+      this.cities = City.getCitiesOfCountry(selectedCountry.isoCode) ;
+      console.log(this.cities);
+    }
+  }
+
+  get transactions(): FormArray{
+   return  this.reportForm.get("payment_information.transactions") as FormArray;
+  }
   onAddTransactions(){
     const transactionForm =new FormGroup({
       payment_method:new FormControl(null, [Validators.required]),
@@ -67,6 +88,9 @@ export class ReportFormComponent  implements  OnInit{
       amount:new FormControl(null, [Validators.required]),
     });
     (<FormArray>this.reportForm.get("payment_information.transactions")).push(transactionForm);
+  }
+  onRemoveTransactions(i:number){
+    this.transactions.removeAt(i);
   }
 
   onFileSelected (event: Event) {
@@ -84,5 +108,14 @@ export class ReportFormComponent  implements  OnInit{
     }
   }
 
-  protected readonly dateTimestampProvider = dateTimestampProvider;
+  ngAfterViewInit(): void {
+    ($('.ui.dropdown') as any).dropdown({
+      onChange: (value: string, text: string) => {
+        // ✅ Sync with Angular form
+        this.reportForm.get('location.country_code')?.setValue(value);
+        this.reportForm.get('location.country_name')?.setValue(text);
+      }
+    });
+  }
+
 }

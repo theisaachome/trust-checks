@@ -27,7 +27,7 @@
               }
             ],
             "styles": [
-              "node_modules/fomantic-ui/dist/semantic.min.css",
+              "node_modules/fomantic-ui-css/semantic.min.css",
               "src/styles.css"
             ],
             "scripts": [
