@@ -49,13 +49,14 @@
         <div formGroupName="scame_case_information">
           <div class="three fields">
             <div class="field">
-              <label for="scameCategory">Select Category</label>
-              <input
-                type="text"
-                id="scameCategory"
-                required
-                formControlName="scame_category"
+              <label>Select Scam Category</label>
+              <select
+                class="ui search dropdown"
+                      formControlName="scame_category"
+                      (change)="onScameCategoryChange($event)"
               >
+                <option *ngFor="let category of scameCategories;" [value]="category.id">{{category.name}}</option>
+              </select>
             </div>
             <div class="field">
               <label for="caseType">Select Case Type</label>
@@ -67,13 +68,8 @@
               >
             </div>
             <div class="field">
-              <label for="date_of_incident">Date of Incident</label>
-              <input
-                type="date"
-                id="date_of_incident"
-                required
-                formControlName="date_of_incident"
-              >
+              <label >Date of Incident</label>
+              <report-datepicker (valueChange)="onDateOfIncidentPick($event)"></report-datepicker>
             </div>
           </div>
           <div class="two fields">
@@ -82,15 +78,14 @@
               <input
                 type="text"
                 name="short_story"
-                placeholder="e.g., KBZ Bank KPay">
+                formControlName="short_story"
+                placeholder="e.g., I was looking...">
             </div>
             <div class="field">
               <label for="modality">Modality</label>
               <input type="text" placeholder="e.g., Online">
             </div>
           </div>
-
-
           <div class="field">
             <label for="longDescription">Long Description</label>
             <textarea
@@ -123,9 +118,9 @@
                  id="cityName"
                  class="ui search dropdown"
                  formControlName="city_name"
-                [disabled]="!cities"
               >
-          <option *ngFor="let city of cities;" [value]="city.name">
+                <option [ngValue]="null">-- Select City --</option>
+          <option *ngFor="let city of cities;" [ngValue]="city.name">
             {{city.name}}
           </option>
               </select>
@@ -133,22 +128,6 @@
           </div>
         </div>
 
-
-<!--    ======
-    <div class="field">
-      <label for="country">Select Country</label>
-      <div class="ui search selection dropdown" formControlName="country_code">
-        <input type="hidden" id="country">
-        <i class="dropdown icon"></i>
-        <div class="default text">Select Country</div>
-        <div class="menu">
-          <div class="item" *ngFor="let country of counties" [attr.data-value]="country.isoCode">
-            {{country.name}}
-          </div>
-        </div>
-      </div>
-    </div>
--->
 
     <h4 class="ui dividing header">Payment Information</h4>
           <div formGroupName="payment_information">
@@ -208,17 +187,17 @@
 
 
     <div class="two fields">
-      <div class="field">
-        <label for="file">Upload files</label>
-        <div class="ui right action left icon input">
-          <i class="folder open yellow icon"></i>
-          <input type="text" formControlName="email_address" name="fileName" placeholder="Select file" readonly>
-          <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)">
-          <button class="ui button" (click)="fileInput.click()">
-            Upload
-          </button>
-        </div>
-      </div>
+<!--      <div class="field">-->
+<!--        <label for="file">Upload files</label>-->
+<!--        <div class="ui right action left icon input">-->
+<!--          <i class="folder open yellow icon"></i>-->
+<!--          <input type="text" formControlName="email_address" name="fileName" placeholder="Select file" readonly>-->
+<!--          <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)">-->
+<!--          <button class="ui button" (click)="fileInput.click()">-->
+<!--            Upload-->
+<!--          </button>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
 
 

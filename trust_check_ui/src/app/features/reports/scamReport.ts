@@ -46,6 +46,7 @@ export const SCAM_CATEGORIES: ScamCategory[] = [
   { id: 'crypto', name: 'Cryptocurrency Scam' },
   { id: 'charity', name: 'Fake Charity / Donation Scam' },
   { id: 'Money Transfer', name: 'Fake Charity / Donation Scam' },
+  {id: 'non_delivery', name: 'Online Purchase Non-Delivery'}
 ];
 
 export const CASE_TYPES: CaseType[] = [

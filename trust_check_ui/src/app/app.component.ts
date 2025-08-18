@@ -8,10 +8,11 @@ import {FooterComponent} from './core/footer/footer.component';
 import {SearchReportComponent} from './features/reports/search-report/search-report.component';
 import {ReportComponent} from './features/reports/report/report.component';
 import {HeaderComponent} from './core/header/header.component';
+import {ReportDatepickerComponent} from './features/common/report-datepicker.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ReportListComponent, ReportFormComponent, FormsModule, UsersComponent, FooterComponent, SearchReportComponent, ReportComponent, HeaderComponent],
+  imports: [RouterOutlet, ReportListComponent, ReportFormComponent, FormsModule, UsersComponent, FooterComponent, SearchReportComponent, ReportComponent, HeaderComponent, ReportDatepickerComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

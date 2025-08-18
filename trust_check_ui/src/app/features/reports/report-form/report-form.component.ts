@@ -2,6 +2,8 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgForOf} from '@angular/common';
 import {Country, City, ICountry, ICity} from 'country-state-city';
+import {CASE_TYPES, CaseType, SCAM_CATEGORIES, ScamCategory} from '../scamReport';
+import {ReportDatepickerComponent} from '../../common/report-datepicker.component';
 
 
 declare var $: any; // for jQuery
@@ -11,7 +13,8 @@ declare var $: any; // for jQuery
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    NgForOf
+    NgForOf,
+    ReportDatepickerComponent
   ],
   templateUrl: './report-form.component.html',
   styleUrl: './report-form.component.css'
@@ -28,9 +31,9 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
       scame_category: new FormControl(null, [Validators.required]),
       case_type: new FormControl(null, [Validators.required]),
       date_of_incident:new FormControl(new Date(), [Validators.required]),
-      short_story:new FormControl(new Date(), [Validators.required]),
+      short_story:new FormControl('', [Validators.required]),
       modality:new FormControl(new Date(), [Validators.required]),
-      long_story: new FormControl(null),
+      long_story: new FormControl(''),
     }),
     payment_information: new FormGroup({
       total_amount_lost:new FormControl(null),
@@ -48,7 +51,7 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
     location:new FormGroup({
       country_name:new FormControl(null, [Validators.required]),
       country_code:new FormControl(null, [Validators.required]),
-      city_name:new FormControl(null, [Validators.required]),
+      city_name:new FormControl({value:null,disabled:true}),
     }),
 
     reporter:new FormGroup({
@@ -62,17 +65,49 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
   counties: ICountry[]=[];
   cities: ICity[]|undefined=[] ;
 
+  scameCategories: ScamCategory []=[];
+  caseTypes: CaseType[]=[];
+
   ngOnInit(): void {
      this.counties = Country.getAllCountries();
+     this.scameCategories = SCAM_CATEGORIES;
+     this.caseTypes = CASE_TYPES;
+  }
+
+  onDateOfIncidentPick(selectedDate:string){
+    this.reportForm.get("scame_case_information.date_of_incident")?.patchValue(new Date(selectedDate));
+  }
+
+  onScameCategoryChange(event:any){
+    const selectedCategory = event.target.value;
+    const selectedCaseType = this.caseTypes.find(c => c.categoryId === selectedCategory);
+    if(selectedCategory){
+      this.reportForm.get("scame_case_information.case_type")?.patchValue(selectedCaseType?.name)
+      this.reportForm.get("scame_case_information.short_story")?.patchValue(selectedCaseType?.story)
+    }
   }
 
   onCountryChange(event:any){
-    console.log(event);
     const selectedCountry = this.counties.find((c)=>c.isoCode===event.target.value);
     this.cities=[];
+
     if(selectedCountry){
-      this.cities = City.getCitiesOfCountry(selectedCountry.isoCode) ;
-      console.log(this.cities);
+      const countryCities = City.getCitiesOfCountry(selectedCountry.isoCode) ?? [];
+      this.cities = countryCities;
+      const cityControl = this.reportForm.get("location.city_name");
+
+      if (cityControl) {
+        cityControl.reset(); // clear previous value
+        // cityControl.disable(); // keep disabled until check
+      }
+
+
+      if (cityControl) {
+        if (this.cities.length > 0) {
+          console.log("got cities in this country")
+          cityControl.enable();
+        }
+      }
     }
   }
 
