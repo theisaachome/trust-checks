@@ -1,5 +1,6 @@
 package com.highway.trustchecks.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,12 +23,12 @@ public class ScamCaseReport {
     @GeneratedValue
     @Column(name = "scame_case_report_id", unique = true, nullable = false,columnDefinition = "UUID")
     private UUID scamCaseReportId;
-    // reporter
-    @OneToOne
+    // many reports by a reporter
+    @ManyToOne
     @JoinColumn(name = "reporter_id",nullable = false,unique = true,updatable = false)
     private CaseReporter caseReporter;
-    // scammerDetails
-    @OneToOne
+    //one scammerDetails can be found in  many reports
+    @ManyToOne
     @JoinColumn(name = "scammer_id",nullable = false,unique = true,updatable = false)
     private ScammerDetails scammerDetails;
     // case information
@@ -46,8 +47,12 @@ public class ScamCaseReport {
     @JoinColumn(name = "payment_information_id")
     private PaymentInformation paymentInformation;
     // tags
-    @OneToMany(cascade =  CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "report_id")
+    @ManyToMany
+    @JoinTable(
+            name = "scam_case_report_tags",
+            joinColumns = @JoinColumn(name = "report_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
     private List<ScamCaseTag> scamCaseTags = new ArrayList<>();
     // reporter-status
     @Enumerated(EnumType.STRING)
