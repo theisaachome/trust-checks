@@ -1,5 +1,7 @@
 package com.highway.trustchecks.service.impl;
 
+import com.highway.trustchecks.api.ApiResponse;
+import com.highway.trustchecks.api.IdResponse;
 import com.highway.trustchecks.entity.ScamCaseReport;
 import com.highway.trustchecks.mapper.CaseReportMapper;
 import com.highway.trustchecks.dto.ScamCaseReportDto;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
 @Service
@@ -17,14 +20,13 @@ public class ScammerServiceImpl implements ScamReportService {
 
     private final ScammerDetailsRepos scammerRepos;
     private final CaseReporterRepos reporterRepos;
-    private final ScamCaseInformationRepos scamCaseRepos;
     private final ScamCaseReportRepo scamCaseReportRepos;
     private final CaseReportMapper scamCaseReporterMapper;
     private final CaseEvidenceRepo caseEvidenceRepos;
 
     @Transactional
     @Override
-    public ScamCaseReport ingestScamReport(ScamCaseReportDto dto) {
+    public ApiResponse ingestScamReport(ScamCaseReportDto dto) {
         // 1 Find or Create Reporter
         var entityReporter = scamCaseReporterMapper.mapToReporter(dto.reporter());
         var newReporter= reporterRepos.findByContactEmail(entityReporter.getContactEmail())
@@ -50,7 +52,6 @@ public class ScammerServiceImpl implements ScamReportService {
 
 
 
-
         // 3 Create Case  (Scam Information)
         var scamCaseInformationEntity = scamCaseReporterMapper.mapToScamCaseInformation(dto.scamInformation());
 
@@ -68,8 +69,6 @@ public class ScammerServiceImpl implements ScamReportService {
 
         caseEvidenceRepos.save(caseEvidence);
 
-
-
         // create case-report
         var caseReport = scamCaseReporterMapper.mapToScamCaseReport(dto);
         caseReport.setCaseReporter(newReporter);
@@ -79,7 +78,8 @@ public class ScammerServiceImpl implements ScamReportService {
         caseReport.setCaseEvidence(caseEvidence);
 
 
-       return scamCaseReportRepos.save(caseReport);
+       var newScamCaseReport = scamCaseReportRepos.save(caseReport);
+       return new ApiResponse(LocalDateTime.now(), 201,new IdResponse(newScamCaseReport.getScamCaseReportId()),"New Scam Case Report Created");
     }
 
 
