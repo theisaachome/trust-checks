@@ -1,4 +1,5 @@
 package com.highway.trustchecks.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class ScamCaseTag {
     @GeneratedValue
     @Column(columnDefinition = "UUID",name = "tag_id")
     private UUID tagId;
+    @JsonIgnore
     @ManyToOne
     private ScamCaseInformation scameCaseInformation;
     private String tag;

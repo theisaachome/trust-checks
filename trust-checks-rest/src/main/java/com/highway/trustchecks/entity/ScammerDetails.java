@@ -1,4 +1,5 @@
 package com.highway.trustchecks.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,6 +30,7 @@ public class ScammerDetails {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
     private Location location;
+    @JsonIgnore
     @OneToMany(mappedBy = "scammer",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SocialMediaHandle> socialMediaHandles = new ArrayList<>();
 

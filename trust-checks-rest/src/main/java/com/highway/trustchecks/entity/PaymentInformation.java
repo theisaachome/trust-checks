@@ -1,5 +1,6 @@
 package com.highway.trustchecks.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +26,7 @@ public class PaymentInformation {
     @Column(name = "total_amount_lost")
     private BigDecimal totalAmountLost;
     private String currency;
+//    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "paymentInformation")
     private Set<PaymentTransaction> paymentTransaction;
 }
