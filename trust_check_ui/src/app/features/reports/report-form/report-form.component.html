@@ -63,7 +63,6 @@
               <input
                 type="text"
                 id="caseType"
-                required
                 formControlName="case_type"
               >
             </div>
@@ -96,6 +95,82 @@
           </div>
         </div>
 
+
+    <!-- Payment Information  -->
+    <h4 class="ui dividing header">Payment Information</h4>
+    <div formGroupName="payment_information">
+      <div class="ui segment">
+        <p>Did you lose money? If yes, please provide the financial information involved.</p>
+        <button class="ui labeled icon button" (click)="onAddTransactions()">
+          <i class="add icon"></i>
+          Transactions
+        </button>
+      </div>
+      <div formArrayName="transactions">
+        <div *ngFor="let transaction of transactions.controls; let i = index"
+             [formGroupName]="i" class="ui segment">
+
+          <button class="ui compact icon mini button right floated">
+            <i class="trash icon" (click)="onRemoveTransactions(i)"></i>
+          </button>
+
+          <div class="two fields">
+            <div class="field">
+              <label>Payment Method</label>
+              <input
+                type="text"
+                placeholder="e.g., Bank Transfer / eWallet."
+                formControlName="payment_method" />
+            </div>
+            <div class="field">
+              <label>Bank Name / eWallet-Name</label>
+              <input
+                type="text"
+                placeholder="e.g., ABC Bank, iWallet.."
+                formControlName="bank_name">
+            </div>
+          </div>
+          <div class="two fields">
+            <div class="field">
+              <label for="accountNumber">Account Number</label>
+              <input
+                type="text"
+                name="accountNumber"
+                placeholder="e.g., 1234567899"
+                inputmode="numeric"
+                pattern="\d*"
+                formControlName="bank_account_number"
+              >
+            </div>
+            <div class="field">
+              <label for="accountHolderName">Account Holder Name</label>
+              <input
+                type="text"
+                name="accountHolderName"
+                placeholder="e.g., Aung Aung Tan"
+                formControlName="account_holder_name"
+              >
+            </div>
+          </div>
+
+          <div class="two fields">
+            <div class="field">
+              <label for="amountLost">Amount Lost</label>
+              <input type="text" placeholder="e.g., $ 1500" formControlName="amount">
+            </div>
+            <div class="field">
+              <label for="transaction_date">Transaction Date</label>
+              <input type="date" formControlName="transaction_date">
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- Location   -->
         <h4>Location: Where did this happen?</h4>
         <div formGroupName="location">
           <div class="two fields">
@@ -129,63 +204,6 @@
         </div>
 
 
-    <h4 class="ui dividing header">Payment Information</h4>
-          <div formGroupName="payment_information">
-            <div>
-              <p>Did you lose money? If yes, please provide the financial information involved.</p>
-            </div>
-            <button class="ui labeled icon button" (click)="onAddTransactions()">
-              <i class="add icon"></i>
-              Transactions
-            </button>
-            <div formArrayName="transactions">
-              <div *ngFor="let transaction of transactions.controls; let i = index" [formGroupName]="i" class="ui segment">
-                <div class="two fields">
-                  <div class="field">
-                    <label>Payment Method</label>
-                    <input type="text" formControlName="payment_method" />
-                  </div>
-                  <div class="field">
-                    <label>Bank Name / eWallet-Name</label>
-                    <input type="text" formControlName="">
-                  </div>
-                </div>
-                <div class="two fields">
-                  <div class="field">
-                    <label for="accountHolderName">Account Holder Name</label>
-                    <input
-                      type="text"
-                      name="accountHolderName"
-                      placeholder="e.g., Aung Aung Tan"
-                    >
-                  </div>
-                  <div class="field">
-                    <label for="accountNumber">Account Number</label>
-                    <input
-                      type="text"
-                      name="accountNumber"
-                      placeholder="e.g., 1234567899"
-                      inputmode="numeric"
-                      pattern="\d*">
-                  </div>
-                </div>
-
-                <div class="two fields">
-                  <div class="field">
-                    <label for="amountLost">Amount Lost</label>
-                    <input type="text" placeholder="e.g., 1500 RM" formControlName="amountLost">
-                  </div>
-                  <div class="field">
-                    <label for="transaction_date">Transaction Date</label>
-                    <input type="date" formControlName="transaction_date">
-                  </div>
-                </div>
-              </div>
-              </div>
-          </div>
-
-
-
     <div class="two fields">
 <!--      <div class="field">-->
 <!--        <label for="file">Upload files</label>-->
@@ -199,6 +217,41 @@
 <!--        </div>-->
 <!--      </div>-->
     </div>
+
+
+
+
+    <!-- Payment Information  -->
+    <h4 class="ui dividing header">Scammer Social Media Handles  Information</h4>
+      <div class="ui segment" >
+        <p>Did you lose money? If yes, please provide the financial information involved.</p>
+        <button class="ui labeled icon button" (click)="onAddSocialMediaHandles()">
+          <i class="add icon"></i>
+          Social Media
+        </button>
+      </div>
+    <div formArrayName="social_media_handles">
+      <div class="ui segment"
+           *ngFor="let social of socialMediaHandles.controls; let i = index"
+           [formGroupName]="i"
+      >
+        <div class="field">
+          <label>Social Media</label>
+          <div class="fields">
+            <div class="five wide field">
+              <input type="text" formControlName="platform" placeholder="e.g., Facebook,Telegram,Instagram">
+            </div>
+            <div class="twelve wide field">
+              <input type="text" formControlName="profile_url"  placeholder="https://facebook.com/scammer-profile">
+            </div>
+            <div class="one wide field" style="display: flex; align-items: center; justify-content: center;">
+              <i class="trash icon red link" (click)="onRemoveSocialMediaHandles(i)"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
 
     <h4 class="ui dividing header">Where did it happened</h4>

@@ -11,7 +11,6 @@
       "case_type": "Job Hunting",
       "date_of_incident": "2025-07-15",
       "short_story": "I was looking for a remote job and ended up...",
-      "modality": "Online",
       "long_story": ""
     },
     "payment_information": {
@@ -19,11 +18,10 @@
       "currency": "SGD",
       "transactions": [
         {
-          "transaction_id": "UUID",
           "payment_method": "Bank Transfer",
-          "account_holder_name": "John Doe",
-          "bank_account_number": "123456789",
           "bank_name": "ABC Bank",
+          "bank_account_number": "123456789",
+          "account_holder_name": "John Doe",
           "amount": 200,
           "transaction_date": "2025-07-15"
         }
@@ -57,6 +55,7 @@
     "contact_email": "optional@example.com",
     "contact_phone": "optional"
   },
+  "modality": "Online",
   "tags": ["job scam", "bank transfer", "singapore"],
   "status": "Open",
   "data_source": "User Submission",

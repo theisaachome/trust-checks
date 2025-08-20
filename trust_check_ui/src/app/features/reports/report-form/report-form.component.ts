@@ -32,7 +32,6 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
       case_type: new FormControl(null, [Validators.required]),
       date_of_incident:new FormControl(new Date(), [Validators.required]),
       short_story:new FormControl('', [Validators.required]),
-      modality:new FormControl(new Date(), [Validators.required]),
       long_story: new FormControl(''),
     }),
     payment_information: new FormGroup({
@@ -44,22 +43,28 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
       links:new FormControl(null, [Validators.required]),
       attachments:new FormControl(null, [Validators.required]),
     }),
-    social_media_handles: new FormGroup({
-      platform: new FormControl(null),
-      profile_url:new FormControl('')
-    }),
+    social_media_handles:new FormArray([]),
     location:new FormGroup({
       country_name:new FormControl(null, [Validators.required]),
       country_code:new FormControl(null, [Validators.required]),
-      city_name:new FormControl({value:null,disabled:true}),
+      city_name:new FormControl({value:null,disabled:false}),
     }),
-
     reporter:new FormGroup({
       name:new  FormControl(),
       contact_mail:new FormControl(null, [Validators.required]),
       contact_phone:new FormControl(null, [Validators.required]),
-    })
+    }),
+    modality:new FormControl(null, [Validators.required]),
+    notes:new FormControl(null, [Validators.required]),
+  });
 
+   transactionForm:FormGroup =new FormGroup({
+    payment_method:new FormControl(null, [Validators.required]),
+     bank_name: new FormControl(null, [Validators.required]),
+     bank_account_number: new FormControl(null, [Validators.required]),
+    account_holder_name: new FormControl(null, [Validators.required]),
+    amount:new FormControl(null, [Validators.required]),
+    transaction_date:new FormControl(null, [Validators.required]),
   });
 
   counties: ICountry[]=[];
@@ -110,23 +115,30 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
       }
     }
   }
-
+  get socialMediaHandles():FormArray{
+     return  this.reportForm.get("social_media_handles") as FormArray;
+  }
+  onAddSocialMediaHandles(){
+   const socialMediaForm = new FormGroup({
+      platform: new FormControl(null),
+      profile_url:new FormControl('')
+    });
+    (<FormArray> this.reportForm.get("social_media_handles")).push(socialMediaForm);
+  }
+  onRemoveSocialMediaHandles(i:number){
+    this.socialMediaHandles.removeAt(i);
+  }
   get transactions(): FormArray{
    return  this.reportForm.get("payment_information.transactions") as FormArray;
   }
   onAddTransactions(){
-    const transactionForm =new FormGroup({
-      payment_method:new FormControl(null, [Validators.required]),
-      account_holder_name: new FormControl(null, [Validators.required]),
-      bank_account_name: new FormControl(null, [Validators.required]),
-      bank_name: new FormControl(null, [Validators.required]),
-      amount:new FormControl(null, [Validators.required]),
-    });
-    (<FormArray>this.reportForm.get("payment_information.transactions")).push(transactionForm);
+    (<FormArray>this.reportForm.get("payment_information.transactions")).push(this.transactionForm);
   }
   onRemoveTransactions(i:number){
     this.transactions.removeAt(i);
   }
+
+
 
   onFileSelected (event: Event) {
     const input = event.target as HTMLInputElement;
