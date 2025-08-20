@@ -1,22 +1,20 @@
 import {Component, OnInit} from '@angular/core';
-import {ReportService} from '../report.service';
+import {ScameReportService} from '../scame-report.service';
 import {ScamReport} from '../scamReport';
 import {DatePipe, NgIf} from '@angular/common';
-import {ReportComponent} from '../report/report.component';
 
 @Component({
   selector: 'app-report-list',
   imports: [
     NgIf,
-    DatePipe,
-    ReportComponent
+    DatePipe
   ],
   templateUrl: './report-list.component.html',
   styleUrl: './report-list.component.css'
 })
 export class ReportListComponent  implements OnInit{
   data:ScamReport[]=[];
-  constructor(private reportService : ReportService) {
+  constructor(private reportService : ScameReportService) {
 
   }
   ngOnInit() {

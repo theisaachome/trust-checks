@@ -6,7 +6,7 @@ import {ScamReport, SearchResultSummary} from './scamReport';
 @Injectable(
   {providedIn: 'root'}
 )
-export  class ReportService{
+export  class ScameReportService {
 
     getReports(){
       return data;

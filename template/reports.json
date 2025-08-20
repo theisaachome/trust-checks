@@ -6,6 +6,39 @@
     "full_name": "Johnathan Doe",
     "phone_number": "+65 123456789",
     "email_address": "johndoe@example.com",
+    "scam_case_information": {
+      "scam_category": "Employment Scam",
+      "case_type": "Job Hunting",
+      "date_of_incident": "2025-07-15",
+      "short_story": "I was looking for a remote job and ended up...",
+      "modality": "Online",
+      "long_story": ""
+    },
+    "payment_information": {
+      "total_amount_lost": 200,
+      "currency": "SGD",
+      "transactions": [
+        {
+          "transaction_id": "UUID",
+          "payment_method": "Bank Transfer",
+          "account_holder_name": "John Doe",
+          "bank_account_number": "123456789",
+          "bank_name": "ABC Bank",
+          "amount": 200,
+          "transaction_date": "2025-07-15"
+        }
+      ]
+    },
+    "case_evidence": {
+      "attachments": [
+        {
+          "file_name": "screenshot1.png",
+          "file_url": "https://example.com/evidence/screenshot1.png",
+          "file_type": "image/png"
+        }
+      ],
+      "link": "https://facebook.com/scammer-profile"
+    },
     "social_media_handles": [
       {
         "platform": "Facebook",
@@ -17,39 +50,6 @@
       "country_code": "SG",
       "city_name": "Yangon"
     }
-  },
-  "scam_case_information": {
-    "scam_category": "Employment Scam",
-    "case_type": "Job Hunting",
-    "date_of_incident": "2025-07-15",
-    "short_story": "I was looking for a remote job and ended up...",
-    "modality": "Online",
-    "long_story": ""
-  },
-  "payment_information": {
-    "total_amount_lost": 200,
-    "currency": "SGD",
-    "transactions": [
-      {
-        "transaction_id": "UUID",
-        "payment_method": "Bank Transfer",
-        "account_holder_name": "John Doe",
-        "bank_account_number": "123456789",
-        "bank_name": "ABC Bank",
-        "amount": 200,
-        "transaction_date": "2025-07-15"
-      }
-    ]
-  },
-  "case_evidence": {
-    "attachments": [
-      {
-        "file_name": "screenshot1.png",
-        "file_url": "https://example.com/evidence/screenshot1.png",
-        "file_type": "image/png"
-      }
-    ],
-    "link": "https://facebook.com/scammer-profile"
   },
   "reporter": {
     "reporter_id": "UUID",

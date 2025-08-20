@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import {debounceTime, distinctUntilChanged, map, of, Subject, switchMap, takeUntil} from 'rxjs';
-import {ReportService} from '../report.service';
+import {ScameReportService} from '../scame-report.service';
 import {SearchResultSummary} from '../scamReport';
 
 
@@ -33,7 +33,7 @@ export class SearchReportComponent implements OnInit ,OnDestroy {
   searched = false;
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private reportService:ReportService) {
+  constructor(private reportService:ScameReportService) {
   }
   ngOnInit(): void {
     this.queryControl.valueChanges.pipe(
