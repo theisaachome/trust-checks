@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {ScamReport, SearchResultSummary} from './scamReport';
+import {CaseReport} from './reports';
 
 
 @Injectable(
@@ -31,8 +32,76 @@ export  class ScameReportService {
       // data.find((q ) => {})
       // return  of(null);
     }
-}
 
+    registerCaseReport(){
+
+    }
+}
+const caseReportData: CaseReport [] =[
+  {
+    "report_id": "UUID",
+    "reported_at": "2025-08-10T14:32:00Z",
+    "scammer_details": {
+      "scammer_alias": "John Doe",
+      "full_name": "Johnathan Doe",
+      "phone_number": "+65 123456789",
+      "email_address": "johndoe@example.com",
+      "scam_case_information": {
+        "scam_category": "Employment Scam",
+        "case_type": "Job Hunting",
+        "date_of_incident": "2025-07-15",
+        "short_story": "I was looking for a remote job and ended up...",
+        "long_story": ""
+      },
+      "payment_information": {
+        "total_amount_lost": 200,
+        "currency": "SGD",
+        "transactions": [
+          {
+            "payment_method": "Bank Transfer",
+            "bank_name": "ABC Bank",
+            "bank_account_number": "123456789",
+            "account_holder_name": "John Doe",
+            "amount": 200,
+            "transaction_date": "2025-07-15"
+          }
+        ]
+      },
+      "case_evidence": {
+        "attachments": [
+          {
+            "file_name": "screenshot1.png",
+            "file_url": "https://example.com/evidence/screenshot1.png",
+            "file_type": "image/png"
+          }
+        ],
+        "link": "https://facebook.com/scammer-profile"
+      },
+      "social_media_handles": [
+        {
+          "platform": "Facebook",
+          "profile_url": "https://facebook.com/scammer-profile"
+        }
+      ],
+      "location": {
+        "country_name": "Singapore",
+        "country_code": "SG",
+        "city_name": "Yangon"
+      }
+    },
+    "reporter": {
+      "reporter_id": "UUID",
+      "nick_name": "Anonymous",
+      "contact_email": "optional@example.com",
+      "contact_phone": "optional"
+    },
+    "modality": "Online",
+    "tags": ["job scam", "bank transfer", "singapore"],
+    "data_source": "User Submission",
+    "notes": "First report from this scammer.",
+    "declarationConsent": true
+  }
+]
 const data: ScamReport[] =[
   {
     "id": "1",

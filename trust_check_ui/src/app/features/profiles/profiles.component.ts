@@ -26,10 +26,6 @@ export class ProfilesComponent {
     })
   });
 
-
-  constructor() {
-  }
-
   onSubmit(){
     console.log(this.profileForm.value);
   }

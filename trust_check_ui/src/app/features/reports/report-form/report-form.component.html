@@ -4,9 +4,9 @@
   <div>Form Valid Status : {{reportForm.valid}}</div>
 </div>
 
-  <form class="ui form"
-    [formGroup]="reportForm" (ngSubmit)="onSubmit()"
-  >
+  <form class="ui form error"
+    [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+
     <div class="ui horizontal divider header" style="margin-top: 10px;">Scammer Details Information</div>
          <ng-container formGroupName="scammer_details">
             <div class="two fields">
@@ -18,6 +18,9 @@
                   placeholder="e.g., John Doe"
                   formControlName="scammer_alias"
                 >
+                <ng-container
+                  *ngTemplateOutlet="textErrorMessage; context: { control: scammerDetails.get('scammer_alias') }">
+                </ng-container>
               </div>
               <div class="field">
                 <label for="fullName">Full Name</label>
@@ -54,7 +57,7 @@
 
         <!--  scame_case_information  -->
         <h4 class="ui dividing header"> Scam Case Information</h4>
-        <div formGroupName="scame_case_information">
+        <ng-container formGroupName="scame_case_information">
           <div class="three fields">
             <div class="field">
               <label>Select Scam Category</label>
@@ -95,11 +98,10 @@
               formControlName="long_story"
             ></textarea>
           </div>
-        </div>
+        </ng-container>
 
 
     <!-- Payment Information  -->
-<!--    <h4 class="ui dividing header">Payment Information</h4>-->
     <div style="margin: 16px 0;">
       <div class="ui horizontal divider header" style="margin-top: 0;">Financial Information</div>
       <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -110,7 +112,7 @@
       </div>
       <small>If yes, please provide the financial information involved.</small>
     </div>
-    <div formGroupName="payment_information">
+    <ng-container formGroupName="payment_information">
       <div formArrayName="transactions">
         <div *ngFor="let transaction of transactions.controls; let i = index"
              [formGroupName]="i"  class="ui segment">
@@ -184,7 +186,7 @@
 
         </div>
       </div>
-    </div>
+    </ng-container>
 
 
 
@@ -211,7 +213,7 @@
         <i class="icon add"></i>
       </button>
     </p>
-    <div formArrayName="social_media_handles">
+    <ng-container formArrayName="social_media_handles">
       <div class="ui fluid card" *ngFor="let social of socialMediaHandles.controls; let i = index" [formGroupName]="i">
         <div class="content">
           <div class="field">
@@ -241,12 +243,12 @@
           </button>
         </div>
       </div>
-    </div>
+    </ng-container>
 
 
     <!-- Location   -->
     <h4>Location: Where did this happen?</h4>
-    <div formGroupName="location">
+    <ng-container formGroupName="location">
       <div class="two fields">
         <div class="field">
           <label for="country">Select Country</label>
@@ -275,7 +277,7 @@
           </select>
         </div>
       </div>
-    </div>
+    </ng-container>
 
     <div class="field">
       <label for="notes">Additional Note</label>
@@ -320,3 +322,22 @@
     <button class="ui button" type="submit" [disabled]="reportForm.invalid">Submit</button>
 
 </form>
+<ng-template #textErrorMessage let-control="control">
+  <div class="ui error message" *ngIf="showErrorMessage(control)">
+    <ul class="list">
+      <li *ngIf="control?.errors?.['required']">
+        This field is required. Please enter a value.
+      </li>
+      <li *ngIf="control?.errors?.['minlength']">
+        Minimum {{ control?.errors?.['minlength'].requiredLength }} characters required.
+      </li>
+      <li *ngIf="control?.errors?.['maxlength']">
+        Maximum {{ control?.errors?.['maxlength'].requiredLength }} characters allowed.
+      </li>
+      <li *ngIf="control?.errors?.['pattern']">
+        Please enter a valid value.
+      </li>
+    </ul>
+  </div>
+</ng-template>
+

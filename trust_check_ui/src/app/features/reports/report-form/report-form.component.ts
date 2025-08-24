@@ -1,6 +1,14 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {JsonPipe, NgForOf} from '@angular/common';
+import {
+  AbstractControl,
+  FormArray,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators, ɵFormGroupRawValue, ɵGetProperty, ɵTypedOrUntyped
+} from '@angular/forms';
+import {JsonPipe, NgForOf, NgIf, NgTemplateOutlet} from '@angular/common';
 import {Country, City, ICountry, ICity} from 'country-state-city';
 import {CASE_TYPES, CaseType, SCAM_CATEGORIES, ScamCategory} from '../scamReport';
 import {ReportDatepickerComponent} from '../../common/report-datepicker.component';
@@ -17,29 +25,31 @@ declare var $: any; // for jQuery
     NgForOf,
     ReportDatepickerComponent,
     JsonPipe,
-    InputComponent
+    InputComponent,
+    NgIf,
+    NgTemplateOutlet
   ],
   templateUrl: './report-form.component.html',
   styleUrl: './report-form.component.css'
 })
 export class ReportFormComponent  implements  OnInit,AfterViewInit{
-  reportForm: FormGroup = new FormGroup({
+  reportForm = new FormGroup({
     scammer_details:new FormGroup({
-      scammer_alias: new FormControl("", [Validators.required]),
-      full_name:new FormControl(null, [Validators.required]),
+      scammer_alias: new FormControl("", [Validators.required,Validators.minLength(3)]),
+      full_name:new FormControl(null, [Validators.required,Validators.minLength(5)]),
       phone_number: new FormControl(null, [Validators.required]),
       email_address : new FormControl(null,[Validators.email]),
     }),
     scame_case_information:new FormGroup({
-      scame_category: new FormControl(null, [Validators.required]),
-      case_type: new FormControl(null, [Validators.required]),
+      scame_category: new FormControl('', [Validators.required]),
+      case_type: new FormControl('', [Validators.required]),
       date_of_incident:new FormControl(new Date(), [Validators.required]),
       short_story:new FormControl('', [Validators.required]),
       long_story: new FormControl(''),
     }),
     payment_information: new FormGroup({
       total_amount_lost:new FormControl(null),
-      currency:new FormControl(null, [Validators.required]),
+      currency:new FormControl(null),
       transactions:new FormArray([])
     }),
     case_evidence:new FormGroup({
@@ -48,9 +58,9 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
     }),
     social_media_handles:new FormArray([]),
     location:new FormGroup({
-      country_name:new FormControl(null, [Validators.required]),
-      country_code:new FormControl(null, [Validators.required]),
-      city_name:new FormControl({value:null,disabled:false}),
+      country_name:new FormControl('', [Validators.required]),
+      country_code:new FormControl('', [Validators.required]),
+      city_name:new FormControl(null),
     }),
     reporter:new FormGroup({
       nick_name:new  FormControl(null,[Validators.required,Validators.minLength(3)]),
@@ -63,16 +73,17 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
   });
 
    transactionForm:FormGroup =new FormGroup({
-    payment_method:new FormControl(null, [Validators.required]),
+     payment_method:new FormControl(null, [Validators.required]),
      bank_name: new FormControl(null, [Validators.required]),
      bank_account_number: new FormControl(null, [Validators.required]),
-    account_holder_name: new FormControl(null, [Validators.required]),
-    amount:new FormControl(null, [Validators.required]),
-    transaction_date:new FormControl(null, [Validators.required]),
+     account_holder_name: new FormControl(null, [Validators.required]),
+     amount:new FormControl(null, [Validators.required]),
+     transaction_date:new FormControl(null, [Validators.required]),
   });
 
   counties: ICountry[]=[];
   cities: ICity[]|undefined=[] ;
+  currencies: any[]=[];
 
   scameCategories: ScamCategory []=[];
   caseTypes: CaseType[]=[];
@@ -83,16 +94,23 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
      this.caseTypes = CASE_TYPES;
   }
 
+
+  get scammerDetails():FormGroup {
+    return this.reportForm.get('scammer_details') as FormGroup;
+  }
+  get scammer_full_name():FormControl {
+    return  this.reportForm.get('scammer_details.full_name') as FormControl;
+  }
   onDateOfIncidentPick(selectedDate:string){
     this.reportForm.get("scame_case_information.date_of_incident")?.patchValue(new Date(selectedDate));
   }
 
   onScameCategoryChange(event:any){
-    const selectedCategory = event.target.value;
+    const selectedCategory = event.target.value || null;
     const selectedCaseType = this.caseTypes.find(c => c.categoryId === selectedCategory);
     if(selectedCategory){
-      this.reportForm.get("scame_case_information.case_type")?.patchValue(selectedCaseType?.name)
-      this.reportForm.get("scame_case_information.short_story")?.patchValue(selectedCaseType?.story)
+      this.reportForm.get("scame_case_information.case_type")?.patchValue(selectedCaseType?.name??null);
+      this.reportForm.get("scame_case_information.short_story")?.patchValue(selectedCaseType?.story??null);
     }
   }
 
@@ -153,7 +171,14 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
     }
   }
 
+  showErrorMessage(inputControl: AbstractControl | null){
+      if (!inputControl) return false; // null check
+        const {dirty,touched,errors} = inputControl;
+        return dirty && touched && errors;
+    }
+
   onSubmit(){
+    // this.reportForm.get("payment_information.currency")?.setValue("S$");
     if(this.reportForm.valid){
       console.log(this.reportForm);
     }
@@ -170,5 +195,6 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
     $('.ui.checkbox').checkbox();
   }
 
-  protected readonly FormControl = FormControl;
+  private buildPayload(){
+  }
 }

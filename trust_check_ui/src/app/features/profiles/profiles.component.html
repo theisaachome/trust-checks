@@ -8,8 +8,10 @@
   <div>Form error around name : {{profileForm.controls.security_code.errors | json}}</div>
 </div>
 <form class="ui  form error"  [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-    <app-input fieldClass="error" type="text" label="Full Name" [control]="profileForm.controls.full_name_on_card"/>
-    <app-input fieldClass="error" type="number" label="Card Number" [control]="profileForm.controls.card_number"/>
+   <div class="two fields">
+     <app-input fieldClass="error" type="text" label="Full Name" [control]="profileForm.controls.full_name_on_card"/>
+     <app-input fieldClass="error" type="number" label="Card Number" [control]="profileForm.controls.card_number"/>
+   </div>
     <app-input fieldClass="error" type="text" label="Expiration" [control]="profileForm.controls.expiration"/>
     <app-input fieldClass="error" type="text" label="Security Code" [control]="profileForm.controls.security_code"/>
     <app-input fieldClass="error" type="text" label="Security Code" [control]="profileForm.controls.reporter.controls.name"/>
