@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {NgForOf} from '@angular/common';
+import {JsonPipe, NgForOf} from '@angular/common';
 import {Country, City, ICountry, ICity} from 'country-state-city';
 import {CASE_TYPES, CaseType, SCAM_CATEGORIES, ScamCategory} from '../scamReport';
 import {ReportDatepickerComponent} from '../../common/report-datepicker.component';
@@ -14,7 +14,8 @@ declare var $: any; // for jQuery
     FormsModule,
     ReactiveFormsModule,
     NgForOf,
-    ReportDatepickerComponent
+    ReportDatepickerComponent,
+    JsonPipe
   ],
   templateUrl: './report-form.component.html',
   styleUrl: './report-form.component.css'
@@ -22,7 +23,7 @@ declare var $: any; // for jQuery
 export class ReportFormComponent  implements  OnInit,AfterViewInit{
   reportForm: FormGroup = new FormGroup({
     scammer_details:new FormGroup({
-      scammer_alias: new FormControl(null, [Validators.required]),
+      scammer_alias: new FormControl("", [Validators.required]),
       full_name:new FormControl(null, [Validators.required]),
       phone_number: new FormControl(null, [Validators.required]),
       email_address : new FormControl(null,[Validators.email]),
@@ -56,6 +57,7 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
     }),
     modality:new FormControl(null, [Validators.required]),
     notes:new FormControl(null, [Validators.required]),
+    declarationConsent:new FormControl(null,[Validators.required])
   });
 
    transactionForm:FormGroup =new FormGroup({
@@ -163,6 +165,7 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
         this.reportForm.get('location.country_name')?.setValue(text);
       }
     });
+    $('.ui.checkbox').checkbox();
   }
 
 }

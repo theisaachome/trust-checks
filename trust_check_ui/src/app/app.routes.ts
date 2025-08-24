@@ -5,11 +5,16 @@ import {ReportListComponent} from './features/reports/report-list/report-list.co
 import {AboutUsComponent} from './pages/about-us/about-us.component';
 import {ContactComponent} from './pages/contact/contact.component';
 import {ReportFormComponent} from './features/reports/report-form/report-form.component';
+import {ProfilesComponent} from './features/profiles/profiles.component';
 
 export const routes: Routes = [
   {
     path: '',
     component:SearchReportComponent
+  },
+  {
+    path:'profiles',
+    component:ProfilesComponent,
   },
   {
     path:'report-now',

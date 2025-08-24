@@ -1,4 +1,8 @@
-
+<div class="ui segment">
+  <h4 class="ui header">Form Data</h4>
+  <div>{{reportForm.value | json}}</div>
+  <div>{{reportForm.valid}}</div>
+</div>
   <form class="ui form"
     [formGroup]="reportForm" (ngSubmit)="onSubmit()"
   >
@@ -71,19 +75,13 @@
               <report-datepicker (valueChange)="onDateOfIncidentPick($event)"></report-datepicker>
             </div>
           </div>
-          <div class="two fields">
-            <div class="field">
-              <label for="short_story">Story title</label>
-              <input
-                type="text"
-                name="short_story"
-                formControlName="short_story"
-                placeholder="e.g., I was looking...">
-            </div>
-            <div class="field">
-              <label for="modality">Modality</label>
-              <input type="text" placeholder="e.g., Online">
-            </div>
+          <div class="field">
+            <label for="short_story">Short Story</label>
+            <input
+              type="text"
+              name="short_story"
+              formControlName="short_story"
+              placeholder="e.g., I was looking...">
           </div>
           <div class="field">
             <label for="longDescription">Long Description</label>
@@ -100,20 +98,26 @@
     <h4 class="ui dividing header">Payment Information</h4>
     <div formGroupName="payment_information">
       <div class="ui segment">
-        <p>Did you lose money? If yes, please provide the financial information involved.</p>
-        <button class="ui labeled icon button" (click)="onAddTransactions()">
-          <i class="add icon"></i>
-          Transactions
-        </button>
-      </div>
+        <div style="margin-bottom: 16px">
+          <p>Did you lose money? If yes, please provide the financial information involved.</p>
+          <button class="ui labeled icon button" (click)="onAddTransactions()">
+            <i class="add icon"></i>
+            Transactions
+          </button>
+        </div>
       <div formArrayName="transactions">
         <div *ngFor="let transaction of transactions.controls; let i = index"
-             [formGroupName]="i" class="ui segment">
-
-          <button class="ui compact icon mini button right floated">
-            <i class="trash icon" (click)="onRemoveTransactions(i)"></i>
-          </button>
-
+             [formGroupName]="i"  class="ui segment">
+          <div class="two fields">
+            <div class="field">
+              <h4 class="ui dividing header">{{ i +1 }} Transactions</h4>
+            </div>
+            <div class="field">
+              <button class="ui compact icon mini button right floated" (click)="onRemoveTransactions(i)">
+                <i class="trash icon" ></i>
+              </button>
+            </div>
+          </div>
           <div class="two fields">
             <div class="field">
               <label>Payment Method</label>
@@ -165,6 +169,7 @@
           </div>
 
         </div>
+      </div>
       </div>
     </div>
 
@@ -236,7 +241,6 @@
            [formGroupName]="i"
       >
         <div class="field">
-          <label>Social Media</label>
           <div class="fields">
             <div class="five wide field">
               <input type="text" formControlName="platform" placeholder="e.g., Facebook,Telegram,Instagram">
@@ -251,7 +255,6 @@
         </div>
       </div>
     </div>
-
 
 
     <h4 class="ui dividing header">Where did it happened</h4>
@@ -295,8 +298,21 @@
 
     <div class="field">
       <div class="ui checkbox">
-        <input type="checkbox" tabindex="0" class="hidden">
+        <input type="checkbox" class="hidden">
         <label>I agree to be contacted | I agree to the Terms and Conditions</label>
+      </div>
+    </div>
+
+    <div>
+       <h4>Declaration & Consent</h4>
+      <p>
+        By submitting this report, I confirm that the information provided is true, accurate, and complete to the best of my knowledge and belief. I understand that providing false or misleading information may have legal consequences. I also give my consent for this information to be collected, stored, and used for the purpose of processing and investigating this report in accordance with applicable laws and policies."
+      </p>
+    </div>
+    <div class="field">
+      <div class="ui checkbox">
+        <input type="checkbox"  class="hidden">
+        <label>   I have read and agree to the Declaration & Consent.</label>
       </div>
     </div>
     <button class="ui button" type="submit">Submit</button>
