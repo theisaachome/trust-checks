@@ -1,0 +1,18 @@
+<p>profiles works!</p>
+<div class="ui segment">
+  <div>Form Content : {{profileForm.value | json}}</div>
+  <div>Form Valid : {{profileForm.valid}}</div>
+  <div>Form error around name : {{profileForm.controls.full_name_on_card.errors | json}}</div>
+  <div>Form error around name : {{profileForm.controls.card_number.errors | json}}</div>
+  <div>Form error around name : {{profileForm.controls.expiration.errors | json}}</div>
+  <div>Form error around name : {{profileForm.controls.security_code.errors | json}}</div>
+</div>
+<form class="ui  form error"  [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <app-input fieldClass="error" label="Full Name" [control]="profileForm.controls.full_name_on_card"/>
+    <app-input fieldClass="error" label="Card Number" [control]="profileForm.controls.card_number"/>
+    <app-input fieldClass="error" label="Expiration" [control]="profileForm.controls.expiration"/>
+    <app-input fieldClass="error" label="Security Code" [control]="profileForm.controls.security_code"/>
+
+  <button class="ui button" type="submit" [disabled]="profileForm.invalid">Submit</button>
+</form>
+
