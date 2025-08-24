@@ -19,6 +19,7 @@ export class InputComponent {
    @Input({required:true}) label!: string;
    @Input({required:true}) control: FormControl = new FormControl();
    @Input() fieldClass:string='';
+   @Input() type:'text' | 'email' | 'number' = 'text';
 
 
   constructor() {

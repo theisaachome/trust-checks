@@ -21,6 +21,9 @@ export class ProfilesComponent {
      expiration: new FormControl(null,[Validators.required,
      Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]),
      security_code: new FormControl(null,[Validators.required,Validators.minLength(3),Validators.maxLength(3)]),
+    reporter:new FormGroup({
+      name:new FormControl('')
+    })
   });
 
 

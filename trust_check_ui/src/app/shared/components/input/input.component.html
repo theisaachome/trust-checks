@@ -1,6 +1,6 @@
 <div class="field" [ngClass]="{'fieldClass':showError()}" style="margin-bottom: 12px;">
   <label>{{label}}</label>
-  <input [formControl]="control">
+  <input [formControl]="control" [type]="type">
 
   <ng-container *ngIf="control.dirty &&
         control.touched

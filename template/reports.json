@@ -51,7 +51,7 @@
   },
   "reporter": {
     "reporter_id": "UUID",
-    "name": "Anonymous",
+    "nick_name": "Anonymous",
     "contact_email": "optional@example.com",
     "contact_phone": "optional"
   },
@@ -59,5 +59,6 @@
   "tags": ["job scam", "bank transfer", "singapore"],
   "status": "Open",
   "data_source": "User Submission",
-  "notes": "First report from this scammer."
+  "notes": "First report from this scammer.",
+  "declarationConsent": true
 }

@@ -4,6 +4,7 @@ import {JsonPipe, NgForOf} from '@angular/common';
 import {Country, City, ICountry, ICity} from 'country-state-city';
 import {CASE_TYPES, CaseType, SCAM_CATEGORIES, ScamCategory} from '../scamReport';
 import {ReportDatepickerComponent} from '../../common/report-datepicker.component';
+import {InputComponent} from '../../../shared/components/input/input.component';
 
 
 declare var $: any; // for jQuery
@@ -15,7 +16,8 @@ declare var $: any; // for jQuery
     ReactiveFormsModule,
     NgForOf,
     ReportDatepickerComponent,
-    JsonPipe
+    JsonPipe,
+    InputComponent
   ],
   templateUrl: './report-form.component.html',
   styleUrl: './report-form.component.css'
@@ -41,8 +43,8 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
       transactions:new FormArray([])
     }),
     case_evidence:new FormGroup({
-      links:new FormControl(null, [Validators.required]),
-      attachments:new FormControl(null, [Validators.required]),
+      links:new FormControl(null),
+      attachments:new FormControl(null),
     }),
     social_media_handles:new FormArray([]),
     location:new FormGroup({
@@ -51,12 +53,12 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
       city_name:new FormControl({value:null,disabled:false}),
     }),
     reporter:new FormGroup({
-      name:new  FormControl(),
-      contact_mail:new FormControl(null, [Validators.required]),
-      contact_phone:new FormControl(null, [Validators.required]),
+      nick_name:new  FormControl(null,[Validators.required,Validators.minLength(3)]),
+      contact_mail:new FormControl(null),
+      contact_phone:new FormControl(null),
     }),
-    modality:new FormControl(null, [Validators.required]),
-    notes:new FormControl(null, [Validators.required]),
+    modality:new FormControl(null),
+    notes:new FormControl(null),
     declarationConsent:new FormControl(null,[Validators.required])
   });
 
@@ -168,4 +170,5 @@ export class ReportFormComponent  implements  OnInit,AfterViewInit{
     $('.ui.checkbox').checkbox();
   }
 
+  protected readonly FormControl = FormControl;
 }

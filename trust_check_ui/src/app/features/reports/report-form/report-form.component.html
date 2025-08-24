@@ -1,52 +1,56 @@
 <div class="ui segment">
   <h4 class="ui header">Form Data</h4>
   <div>{{reportForm.value | json}}</div>
-  <div>{{reportForm.valid}}</div>
+  <div>Form Valid Status : {{reportForm.valid}}</div>
 </div>
+
   <form class="ui form"
     [formGroup]="reportForm" (ngSubmit)="onSubmit()"
   >
-        <h4 class="ui dividing header ">Scammer Details</h4>
-        <div class="four fields" formGroupName="scammer_details">
-          <div class="field">
-            <label for="aliasName">Scammer Alias</label>
-            <input
-              type="text"
-              name="aliasName"
-              placeholder="e.g., John Doe"
-              formControlName="scammer_alias"
-            >
-          </div>
-          <div class="field">
-            <label for="fullName">Full Name</label>
-            <input
-              type="text"
-              name="fullName"
-              placeholder="e.g., Jonathan Doe Market"
-              formControlName="full_name"
-            >
-          </div>
+    <div class="ui horizontal divider header" style="margin-top: 10px;">Scammer Details Information</div>
+         <ng-container formGroupName="scammer_details">
+            <div class="two fields">
+              <div class="field">
+                <label for="aliasName">Scammer Alias</label>
+                <input
+                  type="text"
+                  name="aliasName"
+                  placeholder="e.g., John Doe"
+                  formControlName="scammer_alias"
+                >
+              </div>
+              <div class="field">
+                <label for="fullName">Full Name</label>
+                <input
+                  type="text"
+                  name="fullName"
+                  placeholder="e.g., Jonathan Doe Market"
+                  formControlName="full_name"
+                >
+              </div>
+            </div>
 
-          <div class="field">
-            <label for="phoneNumber">Phone Number</label>
-            <input
-              id="phoneNumber"
-              type="text"
-              placeholder="e.g., 09250832014"
-              formControlName="phone_number"
-            >
-          </div>
-          <div class="field">
-            <label for="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              placeholder="johndoe@example.com"
-              formControlName="email_address"
-            >
-          </div>
-
-        </div>
+           <div class="two fields" >
+             <div class="field">
+               <label for="phoneNumber">Phone Number</label>
+               <input
+                 id="phoneNumber"
+                 type="text"
+                 placeholder="e.g., 09250832014"
+                 formControlName="phone_number"
+               >
+             </div>
+             <div class="field">
+               <label for="email">Email</label>
+               <input
+                 type="email"
+                 id="email"
+                 placeholder="johndoe@example.com"
+                 formControlName="email_address"
+               >
+             </div>
+           </div>
+         </ng-container>
 
         <!--  scame_case_information  -->
         <h4 class="ui dividing header"> Scam Case Information</h4>
@@ -95,29 +99,39 @@
 
 
     <!-- Payment Information  -->
-    <h4 class="ui dividing header">Payment Information</h4>
+<!--    <h4 class="ui dividing header">Payment Information</h4>-->
+    <div style="margin: 16px 0;">
+      <div class="ui horizontal divider header" style="margin-top: 0;">Financial Information</div>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <p style="margin: 0;">Did you lose money?</p>
+        <button class="ui tiny icon basic button" (click)="onAddTransactions()">
+          Add Transaction
+        </button>
+      </div>
+      <small>If yes, please provide the financial information involved.</small>
+    </div>
     <div formGroupName="payment_information">
-      <div class="ui segment">
-        <div style="margin-bottom: 16px">
-          <p>Did you lose money? If yes, please provide the financial information involved.</p>
-          <button class="ui labeled icon button" (click)="onAddTransactions()">
-            <i class="add icon"></i>
-            Transactions
-          </button>
-        </div>
       <div formArrayName="transactions">
         <div *ngFor="let transaction of transactions.controls; let i = index"
              [formGroupName]="i"  class="ui segment">
-          <div class="two fields">
-            <div class="field">
-              <h4 class="ui dividing header">{{ i +1 }} Transactions</h4>
+
+          <div class="ui grid middle aligned">
+            <!-- Title -->
+            <div class="twelve wide column">
+              <h4 class="ui horizontal divider header">
+                Transaction {{ i + 1 }}
+              </h4>
             </div>
-            <div class="field">
-              <button class="ui compact icon mini button right floated" (click)="onRemoveTransactions(i)">
-                <i class="trash icon" ></i>
+            <!-- Delete button -->
+            <div class="four wide right aligned column">
+              <button type="button"
+                      class="ui red icon mini button"
+                      (click)="onRemoveTransactions(i)">
+                <i class="trash icon"></i>
               </button>
             </div>
           </div>
+
           <div class="two fields">
             <div class="field">
               <label>Payment Method</label>
@@ -170,43 +184,8 @@
 
         </div>
       </div>
-      </div>
     </div>
 
-
-
-    <!-- Location   -->
-        <h4>Location: Where did this happen?</h4>
-        <div formGroupName="location">
-          <div class="two fields">
-          <div class="field">
-            <label for="country">Select Country</label>
-            <select
-              id="country"
-              class="ui search dropdown"
-              formControlName="country_name"
-              (change)="onCountryChange($event)"  >
-              <option *ngFor="let country of counties;" [value]="country.isoCode">
-                {{country.name}}
-              </option>
-            </select>
-          </div>
-
-            <div class="field">
-              <label for="cityName">Select City</label>
-              <select
-                 id="cityName"
-                 class="ui search dropdown"
-                 formControlName="city_name"
-              >
-                <option [ngValue]="null">-- Select City --</option>
-          <option *ngFor="let city of cities;" [ngValue]="city.name">
-            {{city.name}}
-          </option>
-              </select>
-            </div>
-          </div>
-        </div>
 
 
     <div class="two fields">
@@ -225,59 +204,82 @@
 
 
 
-
-    <!-- Payment Information  -->
-    <h4 class="ui dividing header">Scammer Social Media Handles  Information</h4>
-      <div class="ui segment" >
-        <p>Did you lose money? If yes, please provide the financial information involved.</p>
-        <button class="ui labeled icon button" (click)="onAddSocialMediaHandles()">
-          <i class="add icon"></i>
-          Social Media
-        </button>
-      </div>
+    <!-- Scammer Social Media -->
+    <h4 class="ui horizontal dividing header">Scammer Social Media Accounts</h4>
+    <p>Please share any social media accounts used by the scammer. Share Now :
+      <button class="circular compact ui icon basic button " type="button" (click)="onAddSocialMediaHandles()">
+        <i class="icon add"></i>
+      </button>
+    </p>
     <div formArrayName="social_media_handles">
-      <div class="ui segment"
-           *ngFor="let social of socialMediaHandles.controls; let i = index"
-           [formGroupName]="i"
-      >
-        <div class="field">
-          <div class="fields">
-            <div class="five wide field">
-              <input type="text" formControlName="platform" placeholder="e.g., Facebook,Telegram,Instagram">
-            </div>
-            <div class="twelve wide field">
-              <input type="text" formControlName="profile_url"  placeholder="https://facebook.com/scammer-profile">
-            </div>
-            <div class="one wide field" style="display: flex; align-items: center; justify-content: center;">
-              <i class="trash icon red link" (click)="onRemoveSocialMediaHandles(i)"></i>
+      <div class="ui fluid card" *ngFor="let social of socialMediaHandles.controls; let i = index" [formGroupName]="i">
+        <div class="content">
+          <div class="field">
+            <label>Platform</label>
+            <select class="ui dropdown" formControlName="platform">
+              <option value="">Select Platform</option>
+              <option>Facebook</option>
+              <option>Instagram</option>
+              <option>Telegram</option>
+              <option>WhatsApp</option>
+              <option>Twitter/X</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Profile URL</label>
+            <div class="ui icon input">
+              <input type="url" formControlName="profile_url" placeholder="https://facebook.com/scammer-profile">
+              <i class="linkify icon"></i>
             </div>
           </div>
+        </div>
+        <div class="extra content right aligned">
+          <button type="button" class="ui red tiny button" (click)="onRemoveSocialMediaHandles(i)">
+            <i class="trash icon"></i> Remove
+          </button>
         </div>
       </div>
     </div>
 
 
-    <h4 class="ui dividing header">Where did it happened</h4>
+    <!-- Location   -->
+    <h4>Location: Where did this happen?</h4>
+    <div formGroupName="location">
+      <div class="two fields">
+        <div class="field">
+          <label for="country">Select Country</label>
+          <select
+            id="country"
+            class="ui search dropdown"
+            formControlName="country_name"
+            (change)="onCountryChange($event)"  >
+            <option *ngFor="let country of counties;" [value]="country.isoCode">
+              {{country.name}}
+            </option>
+          </select>
+        </div>
 
-    <div class="two fields">
-      <div class="field">
-        <label for="platform">Platform</label>
-        <input type="text" id="platform" placeholder="e.g., facebook, online shop">
-      </div>
-      <div class="field">
-        <label for="caseType">Case Type</label>
-        <input type="text" id="caseType"  placeholder="e.g., Job Scam, House Rent, Online game">
+        <div class="field">
+          <label for="cityName">Select City</label>
+          <select
+            id="cityName"
+            class="ui search dropdown"
+            formControlName="city_name"
+          >
+            <option [ngValue]="null">-- Select City --</option>
+            <option *ngFor="let city of cities;" [ngValue]="city.name">
+              {{city.name}}
+            </option>
+          </select>
+        </div>
       </div>
     </div>
-    <div class="two fields">
-      <div class="field">
-        <label for="cityName">City</label>
-        <input type="text" id="cityName" placeholder="e.g., Yangon">
-      </div>
-      <div class="field">
-        <label for="countryName">Country</label>
-        <input type="text" id="countryName"  placeholder="Myanmar">
-      </div>
+
+    <div class="field">
+      <label for="notes">Additional Note</label>
+      <textarea id="notes" formControlName="notes" rows="3"></textarea>
     </div>
 
 
@@ -285,14 +287,14 @@
     <input type="file">
 
     <h4 class="ui dividing header">Optional Contact</h4>
-    <div class="two fields">
+    <div class="two fields" formGroupName="reporter">
       <div class="field">
-        <label for="reporterName">Contact Name</label>
-        <input type="text" id="reporterName" placeholder=" Your Information is safe">
+        <label for="reporterName">Contact Name (Nick Name)</label>
+        <input type="text" id="reporterName" formControlName="nick_name" placeholder=" Your Information is safe">
       </div>
       <div class="field">
         <label for="reporterMail">Contact Mail</label>
-        <input type="email" id="reporterMail" placeholder="e.g., johndoe@example.com">
+        <input type="email" id="reporterMail" formControlName="contact_mail" placeholder="e.g., johndoe@example.com">
       </div>
     </div>
 
@@ -311,10 +313,10 @@
     </div>
     <div class="field">
       <div class="ui checkbox">
-        <input type="checkbox"  class="hidden">
+        <input type="checkbox"  class="hidden" formControlName="declarationConsent">
         <label>   I have read and agree to the Declaration & Consent.</label>
       </div>
     </div>
-    <button class="ui button" type="submit">Submit</button>
+    <button class="ui button" type="submit" [disabled]="reportForm.invalid">Submit</button>
 
 </form>
