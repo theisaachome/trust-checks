@@ -1,16 +1,13 @@
 package com.highway.trustchecks.service.impl;
-
 import com.highway.trustchecks.api.ApiResponse;
 import com.highway.trustchecks.api.IdResponse;
-import com.highway.trustchecks.entity.ScamCaseReport;
-import com.highway.trustchecks.mapper.CaseReportMapper;
-import com.highway.trustchecks.dto.ScamCaseReportDto;
+import com.highway.trustchecks.mapper.IncidentReportMapper;
+import com.highway.trustchecks.dto.IncidentReportDto;
 import com.highway.trustchecks.repos.*;
 import com.highway.trustchecks.service.ScamReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
 
@@ -19,41 +16,40 @@ import java.util.HashSet;
 public class ScammerServiceImpl implements ScamReportService {
 
     private final ScammerDetailsRepos scammerRepos;
-    private final CaseReporterRepos reporterRepos;
+    private final ReporterRepository reporterRepos;
     private final ScamCaseReportRepo scamCaseReportRepos;
-    private final CaseReportMapper scamCaseReporterMapper;
+    private final IncidentReportMapper scamCaseReporterMapper;
     private final CaseEvidenceRepo caseEvidenceRepos;
 
     @Transactional
     @Override
-    public ApiResponse ingestScamReport(ScamCaseReportDto dto) {
-        // 1 Find or Create Reporter
-        var entityReporter = scamCaseReporterMapper.mapToReporter(dto.reporter());
+    public ApiResponse ingestScamReport(IncidentReportDto dto) {
+        // Create Reporter
+        var entityReporter = scamCaseReporterMapper.mapToReporterEntity(dto.reporter());
         var newReporter= reporterRepos.findByContactEmail(entityReporter.getContactEmail())
                 .orElseGet(()->{
                     return reporterRepos.save(entityReporter);
                 });
         // social accounts
         var socialMedia = scamCaseReporterMapper
-                .mapList(dto.scammerDetails().socialMediaHandles(),scamCaseReporterMapper::mapToSocialMediaHandle);
+                .mapList(dto.scammerDetails().socialMediaHandles(),scamCaseReporterMapper::mapToSocialMediaEntity);
 
         // create location and save
-        var location = scamCaseReporterMapper.mapToLocation(dto.scammerDetails().location());
+        var location = scamCaseReporterMapper.mapToLocationEntity(dto.scammerDetails().location());
 
 
-        // 2 Find or create Scammer
-        var entityScammer = scamCaseReporterMapper.mapToScammer(dto.scammerDetails());
+        // 2 Create a Scammer Profile
+        var entityScammer = scamCaseReporterMapper.mapToProfileEntity(dto.scammerDetails());
         socialMedia.forEach((s)->s.setScammer(entityScammer));
-        entityScammer.setSocialMediaHandles(socialMedia);
+        entityScammer.setSocialMedia(socialMedia);
         entityScammer.setLocation(location);
 
-        var newScammer = scammerRepos.findByPhoneNumber(entityScammer.getPhoneNumber())
-                .orElseGet(()->scammerRepos.save(entityScammer));
+        var savedScammer  = scammerRepos.save(entityScammer);
 
 
 
         // 3 Create Case  (Scam Information)
-        var scamCaseInformationEntity = scamCaseReporterMapper.mapToScamCaseInformation(dto.scamInformation());
+        var scamCaseInformationEntity = scamCaseReporterMapper.mapToIncidentEntity(dto.scamInformation());
 
 
         // 4 financial and setup transaction associated with Scam Case
@@ -65,17 +61,17 @@ public class ScammerServiceImpl implements ScamReportService {
         // attachments
         var attachments = scamCaseReporterMapper.mapList(dto.case_evidence().attachments(), scamCaseReporterMapper::mapToAttachment);
         var caseEvidence = scamCaseReporterMapper.mapToCaseEvidence(dto.case_evidence());
-        attachments.forEach((attachment)-> attachment.setCaseEvidence(caseEvidence));
+        attachments.forEach((attachment)-> attachment.setEvidence(caseEvidence));
 
         caseEvidenceRepos.save(caseEvidence);
 
         // create case-report
-        var caseReport = scamCaseReporterMapper.mapToScamCaseReport(dto);
+        var caseReport = scamCaseReporterMapper.mapToIncidentReportEntity(dto);
         caseReport.setCaseReporter(newReporter);
-        caseReport.setScammerDetails(newScammer);
-        caseReport.setScamCaseInformation(scamCaseInformationEntity);
+        caseReport.setProfile(newScammer);
+        caseReport.setIncident(scamCaseInformationEntity);
         caseReport.setPaymentInformation(paymentInformation);
-        caseReport.setCaseEvidence(caseEvidence);
+        caseReport.setEvidence(caseEvidence);
 
 
        var newScamCaseReport = scamCaseReportRepos.save(caseReport);

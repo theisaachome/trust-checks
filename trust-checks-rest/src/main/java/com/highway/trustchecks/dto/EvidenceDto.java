@@ -2,8 +2,8 @@ package com.highway.trustchecks.dto;
 
 import java.util.List;
 
-public record CaseEvidenceDTO(
-        List<AttachmentDTO> attachments,
+public record EvidenceDto(
+        List<AttachmentDto> attachments,
         String link
 ) {
 }

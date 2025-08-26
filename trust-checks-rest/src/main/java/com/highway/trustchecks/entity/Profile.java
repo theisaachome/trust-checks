@@ -15,23 +15,25 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "scammer_details")
-public class ScammerDetails {
+public class Profile {
 
     @Id
     @GeneratedValue
-    @Column(name = "scammer_details_id",columnDefinition = "UUID")
+    @Column(name = "profile_id",columnDefinition = "UUID")
     private UUID id;
 
-    private String scammerAlias;
+    private String alias;
     private String fullName;
     private String phoneNumber;
     private String emailAddress;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "scammer",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SocialMedia> socialMedia = new ArrayList<>();
+
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id")
     private Location location;
-    @JsonIgnore
-    @OneToMany(mappedBy = "scammer",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SocialMediaHandle> socialMediaHandles = new ArrayList<>();
 
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {JsonPipe, NgIf} from '@angular/common';
 import {InputComponent} from '../../shared/components/input/input.component';
+import {DateFormControl} from '../../shared/components/date.form.control';
 
 @Component({
   selector: 'app-profiles',
@@ -20,6 +21,8 @@ export class ProfilesComponent {
      card_number: new FormControl(null,[Validators.required,Validators.minLength(16),Validators.maxLength(16)]),
      expiration: new FormControl(null,[Validators.required,
      Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]),
+    expirationDate: new DateFormControl(null,[Validators.required,
+      Validators.pattern(/^(0[1-9]|1[0-2])\/\d{2}$/)]),
      security_code: new FormControl(null,[Validators.required,Validators.minLength(3),Validators.maxLength(3)]),
     reporter:new FormGroup({
       name:new FormControl('')

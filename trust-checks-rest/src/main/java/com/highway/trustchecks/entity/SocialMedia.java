@@ -10,18 +10,18 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "scammer_social_handles")
-public class SocialMediaHandle {
+@Table(name = "social_medias")
+public class SocialMedia {
 
     @Id
     @GeneratedValue
-    @Column(columnDefinition = "UUID", nullable = false, updatable = false,name = "handle_id")
+    @Column(columnDefinition = "UUID", nullable = false, updatable = false,name = "social_media_id")
     private UUID id;
 
     private String platform;
     private String profileUrl;
 
     @ManyToOne
-    @JoinColumn(name = "scammer_id",nullable = false)
-    private ScammerDetails scammer;
+    @JoinColumn(name = "profile_id",nullable = false)
+    private Profile profile;
 }

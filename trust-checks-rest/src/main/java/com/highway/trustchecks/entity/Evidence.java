@@ -11,7 +11,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "case_evidence")
-public class CaseEvidence {
+public class Evidence {
     @Id
     @GeneratedValue
     @Column(name = "case_evidence_id",columnDefinition = "UUID")

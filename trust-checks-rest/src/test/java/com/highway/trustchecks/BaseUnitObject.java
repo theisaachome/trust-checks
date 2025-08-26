@@ -14,7 +14,7 @@ public class BaseUnitObject {
                 BigDecimal.valueOf(200), // total_amount_lost
                 "SGD", // currency
                 List.of(
-                        new TransactionDTO(
+                        new PaymentDto(
                                 "Bank Transfer", // payment_method
                                 "John Doe", // account_holder_name
                                 "123456789", // bank_account_number
@@ -25,25 +25,25 @@ public class BaseUnitObject {
                 )
         );
     }
-    protected ReporterDTO createReporterDTO() {
-        return new ReporterDTO("Anonymous","optional@example.com","optional");
+    protected ReporterDto createReporterDTO() {
+        return new ReporterDto("Anonymous","optional@example.com","optional");
     }
-    protected ScammerDetailsDTO createScammerDetailsDTO() {
-      return   new ScammerDetailsDTO(
+    protected ProfileDto createScammerDetailsDTO() {
+      return   new ProfileDto(
                 "John Doe", // scammer_alias
                 "Johnathan Doe", // full_name
                 "+65 123456789", // phone_number
                 "johndoe@example.com", // email_address
                 List.of(
-                        new SocialMediaHandleDTO(
+                        new SocialMediaDto(
                                 "Facebook",
                                 "https://facebook.com/scammer-profile"
                         ),
-                        new SocialMediaHandleDTO(
+                        new SocialMediaDto(
                                 "Instagram",
                                 "https://instagram.com/fakeprofile"
                         )
                 ),
-                new LocationDTO("Singapore", "SG","Yangon"));
+                new LocationDto("Singapore", "SG","Yangon"));
     }
 }

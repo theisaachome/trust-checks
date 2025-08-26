@@ -9,8 +9,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "scam_case_tag")
-public class ScamCaseTag {
+@Table(name = "tags")
+public class CaseTag {
 
     @Id
     @GeneratedValue
@@ -18,6 +18,6 @@ public class ScamCaseTag {
     private UUID tagId;
     @JsonIgnore
     @ManyToOne
-    private ScamCaseInformation scameCaseInformation;
+    private Incident incident;
     private String tag;
 }

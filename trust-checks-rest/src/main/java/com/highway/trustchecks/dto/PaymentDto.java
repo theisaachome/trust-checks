@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public record TransactionDTO(
+public record PaymentDto(
         @JsonProperty("payment_method") String paymentMethod,
-        @JsonProperty("account_holder_name") String accountHolderName,
-        @JsonProperty("bank_account_number") String bankAccountNumber,
         @JsonProperty("bank_name") String bankName,
-        BigDecimal amount,
+        @JsonProperty("account_number") String account_number,
+        @JsonProperty("account_holder_name") String accountHolderName,
+        @JsonProperty("amount") BigDecimal amount,
+        @JsonProperty("currency")String currency,
         @JsonProperty("transaction_date") LocalDate transactionDate
 ) {
 }

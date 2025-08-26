@@ -12,14 +12,17 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "reporters")
-public class CaseReporter {
+public class Reporter {
 
     @Id
     @GeneratedValue
     @Column(name = "reporter_id", unique = true, nullable = false,columnDefinition = "UUID")
     private UUID id;
-
-    private String name;
+    @Column(name = "nick_name")
+    private String nickName;
+    @Column(name="contact_email")
     private String contactEmail;
+    @Column(name="contact_phone")
     private String contactPhone;
+
 }

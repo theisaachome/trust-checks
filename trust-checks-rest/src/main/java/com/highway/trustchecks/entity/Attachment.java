@@ -25,5 +25,5 @@ public class Attachment {
 
     @ManyToOne
     @JoinColumn(name = "case_evidence_id",nullable = false)
-    private CaseEvidence caseEvidence;
+    private Evidence evidence;
 }

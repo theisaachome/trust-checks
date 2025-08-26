@@ -21,28 +21,28 @@ class ScamReportServiceTest  extends BaseUnitObject {
 
     @Autowired
     private ScamReportService scamReportService;
-    ScamCaseReportDto scamReportDto;
+    IncidentReportDto scamReportDto;
     @BeforeEach
     void init(){
-        var reporter = new ReporterDTO("Anonymous","optional@example.com","optional");
-        var scammerDetails =new ScammerDetailsDTO(
+        var reporter = new ReporterDto("Anonymous","optional@example.com","optional");
+        var scammerDetails =new ProfileDto(
                 "John Doe", // scammer_alias
                 "Johnathan Doe", // full_name
                 "+65 123456789", // phone_number
                 "johndoe@example.com", // email_address
                 List.of(
-                        new SocialMediaHandleDTO(
+                        new SocialMediaDto(
                                 "Facebook",
                                 "https://facebook.com/scammer-profile"
                         ),
-                        new SocialMediaHandleDTO(
+                        new SocialMediaDto(
                                 "Instagram",
                                 "https://instagram.com/fakeprofile"
                         )
                 ),
-                new LocationDTO("Singapore", "SG","Yangon"));
+                new LocationDto("Singapore", "SG","Yangon"));
 
-        var scamInformation = new ScamCaseInformationDTO(
+        var scamInformation = new IncidentDto(
                 "Job Hunting", // case_type
                 "I was looking for a remote job and ended up...", // scam_description
                 "Employment Scam", // scam_category
@@ -53,7 +53,7 @@ class ScamReportServiceTest  extends BaseUnitObject {
                 BigDecimal.valueOf(200), // total_amount_lost
                 "SGD", // currency
                 List.of(
-                        new TransactionDTO(
+                        new PaymentDto(
                                 "Bank Transfer", // payment_method
                                 "John Doe", // account_holder_name
                                 "123456789", // bank_account_number
@@ -63,12 +63,12 @@ class ScamReportServiceTest  extends BaseUnitObject {
                         )
                 )
         );
-        var caseEvidence = new CaseEvidenceDTO(
-                List.of( new AttachmentDTO(
+        var caseEvidence = new EvidenceDto(
+                List.of( new AttachmentDto(
                         "screenshot1.png", // file_name
                         "https://example.com/evidence/screenshot1.png", // file_url
                         "image/png" // file_type
-                ), new AttachmentDTO(
+                ), new AttachmentDto(
                         "screenshot1.png", // file_name
                         "https://example.com/evidence/screenshot1.png", // file_url
                         "image/png" // file_type
@@ -76,7 +76,7 @@ class ScamReportServiceTest  extends BaseUnitObject {
                 "https://example.com/evidence/screenshot1.png"
         );
 
-        scamReportDto = new ScamCaseReportDto(
+        scamReportDto = new IncidentReportDto(
                 reporter,
                 scammerDetails,
                 scamInformation,

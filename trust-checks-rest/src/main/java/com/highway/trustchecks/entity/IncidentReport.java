@@ -1,12 +1,12 @@
 package com.highway.trustchecks.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -17,35 +17,36 @@ import java.util.UUID;
 @Getter
 @Entity
 @Table(name = "scame_case_report")
-public class ScamCaseReport {
+public class IncidentReport {
 
     @Id
     @GeneratedValue
-    @Column(name = "scame_case_report_id", unique = true, nullable = false,columnDefinition = "UUID")
-    private UUID scamCaseReportId;
+    @Column(name = "incident_report_id", unique = true, nullable = false,columnDefinition = "UUID")
+    private UUID id;
     // many reports by a reporter
     @ManyToOne
     @JoinColumn(name = "reporter_id",nullable = false,unique = true,updatable = false)
-    private CaseReporter caseReporter;
+    private Reporter reporter;
     //one scammerDetails can be found in  many reports
     @ManyToOne
-    @JoinColumn(name = "scammer_id",nullable = false,unique = true,updatable = false)
-    private ScammerDetails scammerDetails;
+    @JoinColumn(name = "profile_id",nullable = false,unique = true,updatable = false)
+    private Profile profile;
     // case information
 
     // case evidence
     @OneToOne
-    @JoinColumn(name = "case_evidence_id")
-    private CaseEvidence caseEvidence;
+    @JoinColumn(name = "evidence_id")
+    private Evidence evidence;
 
     // case-information
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "scam_case_information_id")
-    private ScamCaseInformation scamCaseInformation;
-    // payment-information
-    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "payment_information_id")
-    private PaymentInformation paymentInformation;
+    @JoinColumn(name = "incident_id")
+    private Incident incident;
+    // payments
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "payment_id")
+    private Set<Payment> paymentInformation;
+
     // tags
     @ManyToMany
     @JoinTable(
@@ -53,14 +54,16 @@ public class ScamCaseReport {
             joinColumns = @JoinColumn(name = "report_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private List<ScamCaseTag> scamCaseTags = new ArrayList<>();
+    private List<CaseTag> caseTags = new ArrayList<>();
     // reporter-status
     @Enumerated(EnumType.STRING)
     private CaseStatus status;
+    private String modality;
     // notes
     private String notes;
     // data-source
     private String dataSource;
     // reported_date (created-by-system)
     private LocalDateTime reportedDate;
+    private boolean declarationConsent;
 }

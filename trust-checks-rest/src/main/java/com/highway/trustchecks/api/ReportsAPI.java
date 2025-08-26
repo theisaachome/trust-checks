@@ -1,7 +1,6 @@
 package com.highway.trustchecks.api;
 
-import com.highway.trustchecks.dto.ScamCaseReportDto;
-import com.highway.trustchecks.entity.ScamCaseReport;
+import com.highway.trustchecks.dto.IncidentReportDto;
 import com.highway.trustchecks.service.ScamReportService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,7 @@ public class ReportsAPI {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse> createNewReport(@RequestBody ScamCaseReportDto data) {
+    public ResponseEntity<ApiResponse> createNewReport(@RequestBody IncidentReportDto data) {
         var result = scamReportService.ingestScamReport(data);
         return  ResponseEntity.status(HttpStatus.CREATED).body(result);
     }

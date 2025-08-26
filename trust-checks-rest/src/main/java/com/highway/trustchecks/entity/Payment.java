@@ -14,28 +14,22 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(
-        name = "payment_transactions",
+        name = "payments",
 indexes = {
         @Index(name = "idx_bank_account_number", columnList = "bank_account_number"),
         @Index(name = "idx_bank_name", columnList = "bank_name"),
         @Index(name = "idx_transaction_date", columnList = "transaction_date")
     }
 )
-public class PaymentTransaction {
+public class Payment {
 
     @Id
     @GeneratedValue
     @Column(name = "transaction_id",columnDefinition = "UUID")
     private UUID transactionId;
-
-    @ManyToOne
-    @JoinColumn(name = "payment_information_id",nullable = false)
-    private PaymentInformation paymentInformation;
     private String paymentMethod;
-    private String accountHolderName;
-    private String bankAccountNumber;
-    private String bankName;
     private BigDecimal amount;
+    private String currency;
     private LocalDate transactionDate;
 
 }
