@@ -2,6 +2,7 @@ package com.highway.trustchecks.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -37,8 +38,6 @@ public class ProfileIdentifier {
     private String accountNumber;
     private String bankName;
 
-
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
-
 }

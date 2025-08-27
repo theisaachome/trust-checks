@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface ScamCaseReportRepo extends JpaRepository<IncidentReport, UUID> {
+public interface IncidentReportRepository extends JpaRepository<IncidentReport, UUID> {
 }

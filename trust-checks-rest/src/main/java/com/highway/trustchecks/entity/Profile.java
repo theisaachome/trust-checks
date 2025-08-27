@@ -28,7 +28,7 @@ public class Profile {
     private String emailAddress;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "scammer",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "profile",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SocialMedia> socialMedia = new ArrayList<>();
 
 

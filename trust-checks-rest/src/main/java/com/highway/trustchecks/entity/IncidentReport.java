@@ -31,21 +31,11 @@ public class IncidentReport {
     @ManyToOne
     @JoinColumn(name = "profile_id",nullable = false,unique = true,updatable = false)
     private Profile profile;
-    // case information
-
-    // case evidence
-    @OneToOne
-    @JoinColumn(name = "evidence_id")
-    private Evidence evidence;
 
     // case-information
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "incident_id")
     private Incident incident;
-    // payments
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "payment_id")
-    private Set<Payment> paymentInformation;
 
     // tags
     @ManyToMany

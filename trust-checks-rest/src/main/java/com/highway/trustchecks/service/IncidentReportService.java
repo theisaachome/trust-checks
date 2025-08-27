@@ -4,7 +4,7 @@ import com.highway.trustchecks.api.ApiResponse;
 import com.highway.trustchecks.api.IdResponse;
 import com.highway.trustchecks.dto.IncidentReportDto;
 
-public interface ScamReportService {
+public interface IncidentReportService {
 
-    ApiResponse<IdResponse> ingestScamReport(IncidentReportDto dto);
+    ApiResponse<IdResponse> ingestIncidentReport(IncidentReportDto dto);
 }
